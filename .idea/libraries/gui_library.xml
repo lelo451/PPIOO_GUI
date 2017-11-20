@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="gui-library">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/fontawesomefx-commons-9.1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/UndecoratorBis.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hibernate-commons-annotations-5.0.1.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/annotations-java8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jfoenix-9.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mysql.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

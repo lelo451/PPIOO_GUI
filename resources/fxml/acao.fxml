@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" prefHeight="200.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="lb_jogador_vez" alignment="CENTER" layoutY="21.0" prefWidth="700.0" text="JOGADOR" textFill="#456aff">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="-3.0" layoutY="43.0" prefWidth="700.0" text="ESCOLHA A SUA AÇÃO" textFill="#456aff">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="change_pokemon" layoutY="80.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="700.0" text="TROCAR POKEMON">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="use_ataque" layoutY="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="700.0" text="USAR UM ATAQUE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
