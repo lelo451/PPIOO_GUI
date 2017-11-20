@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="200.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox layoutX="106.0" layoutY="-21.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: rgba(0,0,0,0.1);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox layoutX="106.0" layoutY="-21.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #456aff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label alignment="CENTER" prefHeight="30.0" prefWidth="700.0" text="LOG DA BATALHA" textFill="WHITE">
                <font>
