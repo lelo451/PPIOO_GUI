@@ -66,14 +66,15 @@ public class InicialScenario extends Scenario {
     }
 
     private void HandleHumanAction(ActionEvent event) {
-        FeedbackScenario teamName = new TeamNameScenario(jogadores, quant, "H");
-        Spawner.startFeedbackScenario(teamName, 0, this, (requestCode, resultCode, data) -> {});
+        Scenario teamName = new TimeScenario(jogadores, quant, "H");
+        Spawner.startScenario(teamName, null);
+        //Spawner.startFeedbackScenario(teamName, 0, this, (requestCode, resultCode, data) -> {});
         finish();
     }
 
     private void HandleComputerAction(ActionEvent event) {
-        FeedbackScenario teamName = new TeamNameScenario(jogadores, quant, "C");
-        Spawner.startFeedbackScenario(teamName, 0, this, (requestCode, resultCode, data) -> {});
+        Scenario teamName = new TimeScenario(jogadores, quant, "C");
+        Spawner.startScenario(teamName, null);
         finish();
     }
 }
