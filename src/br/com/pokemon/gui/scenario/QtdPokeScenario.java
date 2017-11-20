@@ -7,10 +7,13 @@ import br.com.pokemon.player.Jogador;
 import br.com.pokemon.poke.Especie;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -61,10 +64,22 @@ public class QtdPokeScenario extends FeedbackScenario {
 
         qtdPokemon.setPromptText("Selecione a Quantidade de Pokemons Para o Time " + name);
 
+        qtdPokemon.setOnKeyPressed(this::handleKeyAction);
+
         btOK.setOnAction(this::handleButtonAction);
     }
 
     private void handleButtonAction(ActionEvent event) {
+        executeAction(event);
+    }
+
+    private void handleKeyAction(KeyEvent event) {
+        if(event.getCode() == KeyCode.ENTER) {
+            executeAction(event);
+        }
+    }
+
+    private void executeAction(Event event) {
         try {
             String texto = qtdPokemon.getSelectionModel().getSelectedItem().getText();
             int total = Integer.parseInt(texto);
