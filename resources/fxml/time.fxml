@@ -169,10 +169,15 @@
             </Button>
          </children>
       </AnchorPane>
-      <ImageView fx:id="pokePreview" fitHeight="80.0" fitWidth="80.0" layoutX="25.0" layoutY="548.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="pokePreview1" fitHeight="80.0" fitWidth="80.0" layoutX="25.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../img/pokemons/001.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="pokePreview2" fitHeight="80.0" fitWidth="80.0" layoutX="110.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="pokePreview3" fitHeight="80.0" fitWidth="80.0" layoutX="195.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="pokePreview4" fitHeight="80.0" fitWidth="80.0" layoutX="280.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="pokePreview5" fitHeight="80.0" fitWidth="80.0" layoutX="370.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="pokePreview6" fitHeight="80.0" fitWidth="80.0" layoutX="460.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

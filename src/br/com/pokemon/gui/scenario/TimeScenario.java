@@ -3,25 +3,24 @@ package br.com.pokemon.gui.scenario;
 import br.com.pokemon.db.Base;
 import br.com.pokemon.gui.FXScenario.NodeCustomizer;
 import br.com.pokemon.gui.FXScenario.Scenario;
+import br.com.pokemon.gui.FXScenario.Spawner;
 import br.com.pokemon.gui.visible.ObservableAtaque;
 import br.com.pokemon.gui.visible.ObservableEspecie;
+import br.com.pokemon.player.Humano;
 import br.com.pokemon.player.Jogador;
+import br.com.pokemon.player.Maquina;
 import br.com.pokemon.poke.Especie;
 import br.com.pokemon.poke.Pokemon;
 import br.com.pokemon.poke.atack.*;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -69,7 +68,13 @@ public class TimeScenario extends Scenario {
     @FXML private Button btName;
     @FXML private ObservableList<ObservableEspecie> especieObservableList;
     @FXML private ObservableList<ObservableAtaque> ataquesObservableList;
-    @FXML private ImageView pokePreview;
+    @FXML private ImageView pokePreview1;
+    @FXML private ImageView pokePreview2;
+    @FXML private ImageView pokePreview3;
+    @FXML private ImageView pokePreview4;
+    @FXML private ImageView pokePreview5;
+    @FXML private ImageView pokePreview6;
+
 
     private List<Jogador> jogadores;
     private List<Especie> especies = new ArrayList<>();
@@ -100,6 +105,32 @@ public class TimeScenario extends Scenario {
         tfName.setOnKeyPressed(this::handleNameFieldAction);
         btName.setOnAction(this::handleNameAction);
         cbQtdPokemon.setOnKeyPressed(this::handleQtdPokemonCBAction);
+        btOK.setOnAction(this::finishChoice);
+    }
+
+    private void finishChoice(ActionEvent event) {
+        if(tipoJogador.equals("H")) {
+            Jogador j = new Humano(name, pokemons);
+            jogadores.add(j);
+        } else {
+            Jogador j = new Maquina(name, pokemons);
+            jogadores.add(j);
+        }
+        quant++;
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Time Criado");
+        alert.setHeaderText(null);
+        alert.setContentText("Time " + name + " Criado Com Sucesso!");
+        alert.showAndWait();
+        if(quant >= 2) {
+            Scenario battleScenario = new BattleScenario(jogadores);
+            Spawner.startScenario(battleScenario, null);
+            finish();
+        } else {
+            Scenario startScenario = new InicialScenario(jogadores, quant);
+            Spawner.startScenario(startScenario, null);
+            finish();
+        }
     }
 
     private void segundoPlano() {
@@ -205,6 +236,7 @@ public class TimeScenario extends Scenario {
                 btQtdPokemon.setDisable(false);
                 tfName.setDisable(true);
                 btName.setDisable(true);
+                lbErrorName.setVisible(false);
             } else
                 throw new RuntimeException();
         } catch (Exception e) {
@@ -228,42 +260,55 @@ public class TimeScenario extends Scenario {
             int total = Integer.parseInt(texto);
             tvEspecie.setDisable(false);
             btEspecie.setDisable(false);
-            selectPokemons(0, total);
             lbErrorQtdPokemon.setVisible(false);
             btQtdPokemon.setDisable(true);
             cbQtdPokemon.setDisable(true);
+            lbErrorQtdPokemon.setVisible(false);
+            selectPokemons(0, total);
         } catch (Exception e) {
             lbErrorQtdPokemon.setVisible(true);
         }
     }
 
     private void selectPokemons(int pokeAtual, int totalPokemon) {
-        tvEspecie.getSelectionModel().clearSelection();
         if(pokeAtual + 1 > totalPokemon) {
-            cbQtdAtaque.setDisable(false);
-            btQtdAtaque.setDisable(false);
-            tvEspecie.setDisable(true);
-            btEspecie.setDisable(true);
-            //finalPhase(0, 4, 0, totalPokemon);
+            try {
+                tvEspecie.setDisable(true);
+                btEspecie.setDisable(true);
+                cbQtdAtaque.setDisable(false);
+                btQtdAtaque.setDisable(false);
+                especies.add(tvEspecie.getSelectionModel().getSelectedItem().getEspecie());
+                finalPhase(0, totalPokemon);
+                tvEspecie.getSelectionModel().clearSelection();
+                lbErrorEspecie.setVisible(false);
+            } catch (Exception e) {
+                lbErrorEspecie.setVisible(true);
+                tvEspecie.setDisable(false);
+                btEspecie.setDisable(false);
+            }
         } else {
             lbEspecie.setText("ESPÉCIE POKEMON #" + (pokeAtual + 1));
             btEspecie.setOnAction(e -> {
                 try {
                     int id = tvEspecie.getSelectionModel().getSelectedItem().getEspecie().getId();
-                    showPreview(id);
+                    showPreview(id, pokeAtual + 1);
                     especies.add(tvEspecie.getSelectionModel().getSelectedItem().getEspecie());
                     selectPokemons(pokeAtual + 1, totalPokemon);
+                    tvEspecie.getSelectionModel().clearSelection();
+                    lbErrorEspecie.setVisible(false);
                 } catch (Exception ex) {
                     lbErrorEspecie.setVisible(true);
                 }
             });
             tvEspecie.setOnKeyPressed(e -> {
                 int id = tvEspecie.getSelectionModel().getSelectedItem().getEspecie().getId();
-                showPreview(id);
+                showPreview(id, pokeAtual + 1);
                 if(e.getCode() == KeyCode.ENTER) {
                     try {
                         especies.add(tvEspecie.getSelectionModel().getSelectedItem().getEspecie());
                         selectPokemons(pokeAtual + 1, totalPokemon);
+                        tvEspecie.getSelectionModel().clearSelection();
+                        lbErrorEspecie.setVisible(false);
                     } catch (Exception ex) {
                         lbErrorEspecie.setVisible(true);
                     }
@@ -271,26 +316,153 @@ public class TimeScenario extends Scenario {
             });
             tvEspecie.setOnMousePressed(e -> {
                 int id = tvEspecie.getSelectionModel().getSelectedItem().getEspecie().getId();
-                showPreview(id);
+                showPreview(id, pokeAtual + 1);
             });
         }
     }
 
-    /*
-    TODO: fazer essa função de finalizar de adicionar o pokemon e mostrar a imagem do pokemon que está sendo feito a adição de ataques
-    private void finalPhase(int ataqueAtual, int maxAtaque, int pokeAtual, int totalPoke) {
-        if(ataqueAtual + 1 > maxAtaque) {
-            if(pokeAtual + 1 > totalPoke) {
+    private void finalPhase(int pokeAtual, int totalPoke) {
+        hidePreview();
+        cbQtdAtaque.setPromptText("Selecione A Quantidade De Ataque Para " + especies.get(pokeAtual).getNome());
+        switch (pokeAtual + 1) {
+            case 1:
+                pokePreview1.setVisible(true);
+                break;
+            case 2:
+                pokePreview2.setVisible(true);
+                break;
+            case 3:
+                pokePreview3.setVisible(true);
+                break;
+            case 4:
+                pokePreview4.setVisible(true);
+                break;
+            case 5:
+                pokePreview5.setVisible(true);
+                break;
+            case 6:
+                pokePreview6.setVisible(true);
+                break;
+        }
+        btQtdAtaque.setOnAction(e -> {
+            cbQtdAtaque.setDisable(true);
+            btQtdAtaque.setDisable(true);
+            setQtdAtaque(pokeAtual, totalPoke);
+        });
+        cbQtdAtaque.setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.ENTER) {
+                cbQtdAtaque.setDisable(true);
+                btQtdAtaque.setDisable(true);
+                setQtdAtaque(pokeAtual, totalPoke);
+            }
+        });
+    }
 
+    private void setQtdAtaque(int pokeAtual, int totalPoke) {
+        try {
+            String texto = cbQtdAtaque.getSelectionModel().getSelectedItem().getText();
+            int total = Integer.parseInt(texto);
+            tvAtaque.setDisable(false);
+            btAtaque.setDisable(false);
+            addAtaque(0, total, pokeAtual, totalPoke);
+            lbErrorQtdAtaque.setVisible(false);
+        } catch (Exception e) {
+            lbErrorQtdAtaque.setVisible(true);
+            cbQtdAtaque.setDisable(false);
+            btQtdAtaque.setDisable(false);
+        }
+    }
+
+    private void addAtaque(int ataqueAtual, int totalAtaque, int pokeAtual, int totalPokemon) {
+        if(ataqueAtual < totalAtaque)
+            lbAtaque.setText("ATAQUE #" + (ataqueAtual + 1) + " / " + especies.get(pokeAtual).getNome() + " #" + (pokeAtual + 1) );
+        btAtaque.setOnAction(e -> executaAdd(ataqueAtual, totalAtaque, pokeAtual, totalPokemon));
+        tvAtaque.setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.ENTER) {
+                executaAdd(ataqueAtual, totalAtaque, pokeAtual, totalPokemon);
+            }
+        });
+    }
+
+    private void executaAdd(int ataqueAtual, int totalAtaque, int pokeAtual, int totalPokemon) {
+        btLevel.setOnAction(e -> {
+            try {
+                int lvl = Integer.parseInt(tfLevel.getText());
+                if(lvl < 1 || lvl > 100)
+                    throw new RuntimeException();
+                addPokemon(pokeAtual, totalPokemon, lvl);
+                lbErrorLevel.setVisible(false);
+            } catch (Exception ex) {
+                lbErrorLevel.setVisible(true);
+                tfLevel.setDisable(false);
+                btLevel.setDisable(false);
+            }
+        });
+        tfLevel.setOnAction(e -> {
+            try {
+                int lvl = Integer.parseInt(tfLevel.getText());
+                if(lvl < 1 || lvl > 100)
+                    throw new RuntimeException();
+                addPokemon(pokeAtual, totalPokemon, lvl);
+                lbErrorLevel.setVisible(false);
+            } catch (Exception ex) {
+                lbErrorLevel.setVisible(true);
+                tfLevel.setDisable(false);
+                btLevel.setDisable(false);
+            }
+        });
+        if(ataqueAtual + 1 >= totalAtaque) {
+            try {
+                tvAtaque.setDisable(true);
+                btAtaque.setDisable(true);
+                tfLevel.setDisable(false);
+                btLevel.setDisable(false);
+                tfLevel.setPromptText("Level do " + especies.get(pokeAtual).getNome());
+                ataques.add(tvAtaque.getSelectionModel().getSelectedItem().getAtaque());
+                tvAtaque.getSelectionModel().clearSelection();
+                lbErrorAtaque.setVisible(false);
+            } catch (Exception e) {
+                lbErrorAtaque.setVisible(true);
+            }
+        } else {
+            try {
+                ataques.add(tvAtaque.getSelectionModel().getSelectedItem().getAtaque());
+                addAtaque(ataqueAtual + 1, totalAtaque, pokeAtual, totalPokemon);
+                tvAtaque.getSelectionModel().clearSelection();
+                lbErrorAtaque.setVisible(false);
+            } catch (Exception e) {
+                lbErrorAtaque.setVisible(true);
             }
         }
-        cbQtdAtaque.setPromptText("Selecione A Quantidade De Ataque Para " + especies.get(pokeAtual).getNome());
-        showPreview(especies.get(pokeAtual).getId());
-
     }
-     */
 
-    private void showPreview(int id) {
+    private void addPokemon(int pokeAtual, int totalPokemon, int lvl) {
+        if(pokeAtual + 1 >= totalPokemon) {
+            tfLevel.setDisable(true);
+            btLevel.setDisable(true);
+            btOK.setDisable(false);
+            pokemons.add(new Pokemon(lvl, ataques, especies.get(pokeAtual)));
+        } else {
+            pokemons.add(new Pokemon(lvl, ataques, especies.get(pokeAtual)));
+            cbQtdAtaque.setDisable(false);
+            btQtdAtaque.setDisable(false);
+            tfLevel.setDisable(true);
+            tfLevel.setText(null);
+            btLevel.setDisable(true);
+            finalPhase(pokeAtual + 1, totalPokemon);
+        }
+    }
+
+    private void hidePreview() {
+        pokePreview1.setVisible(false);
+        pokePreview2.setVisible(false);
+        pokePreview3.setVisible(false);
+        pokePreview4.setVisible(false);
+        pokePreview5.setVisible(false);
+        pokePreview6.setVisible(false);
+    }
+
+    private void showPreview(int id, int pokemon) {
         String path;
         if(id < 10)
             path = "img/pokemons/00" + id + ".png";
@@ -299,6 +471,25 @@ public class TimeScenario extends Scenario {
         else
             path = "img/pokemons/" + id + ".png";
         Image image = new Image(path);
-        pokePreview.setImage(image);
+        switch (pokemon) {
+            case 1:
+                pokePreview1.setImage(image);
+                break;
+            case 2:
+                pokePreview2.setImage(image);
+                break;
+            case 3:
+                pokePreview3.setImage(image);
+                break;
+            case 4:
+                pokePreview4.setImage(image);
+                break;
+            case 5:
+                pokePreview5.setImage(image);
+                break;
+            case 6:
+                pokePreview6.setImage(image);
+                break;
+        }
     }
 }
