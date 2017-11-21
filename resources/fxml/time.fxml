@@ -7,12 +7,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox fx:id="menuBar" prefHeight="30.0" style="-fx-background-color: #456aff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -34,7 +35,7 @@
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <Label fx:id="lbErrorName" alignment="CENTER" layoutX="195.0" layoutY="100.0" styleClass="error-label" text="Digite Um Nome" textFill="RED" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Label fx:id="lbErrorName" layoutX="15.0" layoutY="100.0" prefHeight="18.0" prefWidth="154.0" styleClass="error-label" text="Digite Um Nome" textFill="RED" AnchorPane.leftAnchor="15.0">
                <font>
                   <Font size="14.0" />
                </font>
@@ -44,6 +45,11 @@
                   <Font size="16.0" />
                </font>
             </Label>
+            <Button fx:id="btName" layoutX="375.0" layoutY="90.0" mnemonicParsing="false" text="SELECIONAR" textFill="#456aff">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="pTeamName1" layoutX="520.0" layoutY="50.0" prefHeight="145.0" prefWidth="500.0">
@@ -53,7 +59,7 @@
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <Label fx:id="lbErrorLevel" alignment="CENTER" layoutX="180.0" layoutY="100.0" styleClass="error-label" text="Digite Um Level Válido" textFill="RED" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Label fx:id="lbErrorLevel" alignment="CENTER" layoutX="16.0" layoutY="100.0" styleClass="error-label" text="Digite Um Level Válido" textFill="RED">
                <font>
                   <Font size="14.0" />
                </font>
@@ -63,17 +69,22 @@
                   <Font size="16.0" />
                </font>
             </Label>
+            <Button fx:id="btLevel" layoutX="375.0" layoutY="90.0" mnemonicParsing="false" text="SELECIONAR" textFill="#456aff">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="pQuantidadePokemon" layoutX="10.0" layoutY="195.0" prefHeight="90.0" prefWidth="500.0">
          <children>
             <JFXComboBox fx:id="cbQtdPokemon" labelFloat="true" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="470.0" promptText="Esolha A Quantidade De Pokemons Para o Time 1" />
-            <Button fx:id="btQtdPokemon" layoutX="384.0" layoutY="50.0" mnemonicParsing="false" text="SELECIONAR" textFill="#456aff">
+            <Button fx:id="btQtdPokemon" layoutX="373.0" layoutY="50.0" mnemonicParsing="false" text="SELECIONAR" textFill="#456aff">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Label fx:id="lbErrorQtdPokemon" layoutX="181.0" layoutY="55.0" styleClass="error-label" text="Selecione Uma Opção" textFill="RED">
+            <Label fx:id="lbErrorQtdPokemon" layoutX="15.0" layoutY="55.0" styleClass="error-label" text="Selecione Uma Opção" textFill="RED">
                <font>
                   <Font size="14.0" />
                </font>
@@ -115,7 +126,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Label fx:id="lbErrorEspecie" layoutX="180.0" layoutY="245.0" styleClass="error-label" text="Selecione Uma Opção" textFill="RED">
+            <Label fx:id="lbErrorEspecie" layoutX="15.0" layoutY="245.0" styleClass="error-label" text="Selecione Uma Opção" textFill="RED">
                <font>
                   <Font size="14.0" />
                </font>
@@ -137,12 +148,12 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button fx:id="btAtaque" layoutX="385.0" layoutY="240.0" mnemonicParsing="false" text="SELECIONAR" textFill="#456aff">
+            <Button fx:id="btAtaque" layoutX="375.0" layoutY="240.0" mnemonicParsing="false" text="SELECIONAR" textFill="#456aff">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Label fx:id="lbErrorAtaque" layoutX="182.0" layoutY="245.0" styleClass="error-label" text="Selecione Uma Opção" textFill="RED">
+            <Label fx:id="lbErrorAtaque" layoutX="15.0" layoutY="245.0" styleClass="error-label" text="Selecione Uma Opção" textFill="RED">
                <font>
                   <Font size="14.0" />
                </font>
@@ -158,5 +169,10 @@
             </Button>
          </children>
       </AnchorPane>
+      <ImageView fx:id="pokePreview" fitHeight="80.0" fitWidth="80.0" layoutX="25.0" layoutY="548.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/pokemons/001.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
