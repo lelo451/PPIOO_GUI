@@ -232,4 +232,22 @@
     -fx-background-color: #FF9B8E;
 }
 
+.jfx-progress-bar-green > .bar {
+    -fx-background-color: #0F9D58;
+}
 
+.jfx-progress-bar-yellowgreen > .bar {
+    -fx-background-color: yellowgreen;
+}
+
+.jfx-progress-bar-yellow > .bar {
+    -fx-background-color: yellow;
+}
+
+.jfx-progress-bar-orange > .bar {
+    -fx-background-color: orangered;
+}
+
+.jfx-progress-bar-red > .bar {
+    -fx-background-color: red;
+}

@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="720.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox fx:id="menu" prefHeight="30.0" prefWidth="720.0" style="-fx-background-color: #456aff;">
+         <children>
+            <Label prefHeight="30.0" text="BATALHA POKEMON" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="8.0" />
+               </HBox.margin>
+            </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="hideButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" styleClass="image-button">
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                     <image>
+                        <Image url="@../img/scenarios/minimize.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="exitButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" styleClass="image-button-close">
+               <graphic>
+                  <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                     <image>
+                        <Image url="@../img/scenarios/close.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <SplitPane dividerPositions="0.5" layoutY="30.0" prefHeight="470.0" prefWidth="720.0">
+        <items>
+          <AnchorPane fx:id="pTime1" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <HBox prefHeight="30.0" prefWidth="360.0" style="-fx-background-color: #456aff;">
+                     <children>
+                        <Label fx:id="lbJogador1" alignment="CENTER" prefHeight="30.0" prefWidth="360.0" text="JOGADOR1" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="hbPrev1" layoutY="30.0" prefHeight="40.0" prefWidth="360.0">
+                     <children>
+                        <ImageView fx:id="poke11" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/pokemons/001.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="poke12" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="poke13" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="poke14" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="poke15" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="poke16" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </HBox>
+                  <ImageView fx:id="imgJogador1" fitHeight="100.0" fitWidth="100.0" layoutX="130.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/pokemons/001.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lbEspecie1" layoutX="40.0" layoutY="210.0" prefHeight="20.0" prefWidth="84.0" text="ESPECIE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbLvl1" alignment="CENTER" layoutX="200.0" layoutY="210.0" prefHeight="20.0" prefWidth="84.0" text="LVL. ?">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="240.0" prefHeight="20.0" prefWidth="30.0" text="HP">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <JFXProgressBar fx:id="pgPoke1" layoutX="100.0" layoutY="240.0" prefHeight="20.0" progress="0.43" />
+                  <Label fx:id="lbHp1" alignment="CENTER_RIGHT" layoutX="100.0" layoutY="265.0" prefHeight="20.0" prefWidth="200.0" text="HP/MAXHP">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="290.0" prefHeight="20.0" prefWidth="84.0" text="ATK">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbAtk1" alignment="CENTER" layoutX="200.0" layoutY="290.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="315.0" prefHeight="20.0" prefWidth="84.0" text="DEF">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbDef1" alignment="CENTER" layoutX="200.0" layoutY="315.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="340.0" prefHeight="20.0" prefWidth="100.0" text="SPD">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbSpd1" alignment="CENTER" layoutX="200.0" layoutY="340.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="365.0" prefHeight="20.0" prefWidth="100.0" text="SPE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbSpe1" alignment="CENTER" layoutX="200.0" layoutY="365.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="390.0" prefHeight="20.0" prefWidth="100.0" text="STATUS">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbStatus1" alignment="CENTER" layoutX="200.0" layoutY="390.0" prefHeight="20.0" prefWidth="84.0" text="OK">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="415.0" prefHeight="20.0" prefWidth="100.0" text="FLINCH">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbFlinch1" alignment="CENTER" layoutX="200.0" layoutY="415.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="440.0" prefHeight="20.0" prefWidth="100.0" text="CONFUSION">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbConfusion1" alignment="CENTER" layoutX="200.0" layoutY="440.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+          <AnchorPane fx:id="pTime2" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <HBox prefHeight="30.0" prefWidth="360.0" style="-fx-background-color: #456aff;">
+                     <children>
+                        <Label fx:id="lbJogador2" alignment="CENTER" prefHeight="30.0" prefWidth="360.0" text="JOGADOR2" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="hbPrev2" layoutY="30.0" prefHeight="40.0" prefWidth="360.0">
+                     <children>
+                        <ImageView fx:id="poke21" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/pokemons/002.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="poke22" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="poke23" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="poke24" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="poke25" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="poke26" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </HBox>
+                  <ImageView fx:id="imgJogador2" fitHeight="100.0" fitWidth="100.0" layoutX="130.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/pokemons/002.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lbEspecie2" layoutX="40.0" layoutY="204.0" prefHeight="20.0" prefWidth="84.0" text="ESPECIE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbLvl2" alignment="CENTER" layoutX="200.0" layoutY="210.0" prefHeight="20.0" prefWidth="84.0" text="LVL. ?">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="240.0" prefHeight="20.0" prefWidth="30.0" text="HP">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <JFXProgressBar fx:id="pgPoke2" layoutX="100.0" layoutY="240.0" prefHeight="20.0" progress="0.45" />
+                  <Label fx:id="lbHp2" alignment="CENTER_RIGHT" layoutX="100.0" layoutY="265.0" prefHeight="20.0" prefWidth="200.0" text="HP/MAXHP">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="290.0" prefHeight="20.0" prefWidth="84.0" text="ATK">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbAtk2" alignment="CENTER" layoutX="200.0" layoutY="290.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="315.0" prefHeight="20.0" prefWidth="84.0" text="DEF">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbDef2" alignment="CENTER" layoutX="200.0" layoutY="315.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="340.0" prefHeight="20.0" prefWidth="100.0" text="SPD">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbSpd2" alignment="CENTER" layoutX="200.0" layoutY="340.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="365.0" prefHeight="20.0" prefWidth="100.0" text="SPE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbSpe2" alignment="CENTER" layoutX="200.0" layoutY="365.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="390.0" prefHeight="20.0" prefWidth="100.0" text="STATUS">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbStatus2" alignment="CENTER" layoutX="200.0" layoutY="390.0" prefHeight="20.0" prefWidth="84.0" text="OK">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="415.0" prefHeight="20.0" prefWidth="100.0" text="FLINCH">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbFlinch2" alignment="CENTER" layoutX="200.0" layoutY="415.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="40.0" layoutY="440.0" prefHeight="20.0" prefWidth="100.0" text="CONFUSION">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbConfusion2" alignment="CENTER" layoutX="200.0" layoutY="440.0" prefHeight="20.0" prefWidth="84.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <TextArea fx:id="taLog" editable="false" layoutY="505.0" mouseTransparent="true" pickOnBounds="false" prefHeight="70.0" prefWidth="690.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <AnchorPane fx:id="apActionJogador" layoutY="582.0" prefHeight="140.0" prefWidth="720.0">
+         <children>
+            <HBox layoutX="15.0" prefHeight="20.0" prefWidth="690.0" style="-fx-background-color: #456aff;" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
+               <children>
+                  <Label fx:id="lbJogadorVez" alignment="CENTER" prefHeight="20.0" prefWidth="690.0" text="JOGADOR VEZ" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <AnchorPane fx:id="apAcao" layoutX="15.0" layoutY="20.0" prefHeight="120.0" prefWidth="230.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="49.0" layoutY="14.0" text="ESCOLHA A SUA AÇAO" textFill="#456aff" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btChangePokemon" layoutX="15.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="TROCAR DE POKEMON" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+                  <Button fx:id="btUseAtaque" layoutX="15.0" layoutY="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="USAR UM ATAQUE" />
+                  <Label fx:id="lbErrorAcao" alignment="CENTER" layoutX="90.0" layoutY="100.0" styleClass="error-label" text="Açao Inválida" textFill="RED" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apChange" layoutX="245.0" layoutY="20.0" prefHeight="120.0" prefWidth="230.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="97.0" layoutY="14.0" text="SELECIONE PARA TROCAR" textFill="#456aff" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="imgChange1" fitHeight="50.0" fitWidth="50.0" layoutX="15.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="15.0" />
+                  <ImageView fx:id="imgChange2" fitHeight="50.0" fitWidth="50.0" layoutX="90.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgChange3" fitHeight="50.0" fitWidth="50.0" layoutX="125.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="15.0" />
+                  <Button fx:id="btChange" layoutX="122.0" layoutY="96.0" mnemonicParsing="false" text="SELECIONAR" textFill="#456aff" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="15.0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="lbErrorChange" layoutX="14.0" layoutY="90.0" styleClass="error-label" text="Fora De Combate" textFill="RED" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apAtack" layoutX="475.0" layoutY="20.0" prefHeight="120.0" prefWidth="230.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="31.0" layoutY="10.0" text="ESCOLHA O ATAQUE" textFill="#456aff" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox fx:id="cbAtaque" layoutX="15.0" layoutY="47.0" prefHeight="26.0" prefWidth="200.0" />
+                  <Button fx:id="btAtaque" layoutX="118.0" layoutY="85.0" mnemonicParsing="false" text="SELECIONAR" textFill="#456aff" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="15.0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="lbErrorAtaque" alignment="CENTER" layoutX="10.0" layoutY="90.0" prefHeight="15.0" prefWidth="93.0" styleClass="error-label" text="Escolha Um" textFill="RED" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

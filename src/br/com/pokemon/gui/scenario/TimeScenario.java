@@ -101,6 +101,8 @@ public class TimeScenario extends Scenario {
         stage.setTitle("Monte O Seu Time");
         NodeCustomizer.setUpMenuBar(this, menuBar, null, null, null);
         segundoPlano();
+        tfName.setPromptText("Nome Do Jogador Do Time " + (quant + 1));
+        pokePreview1.setImage(null);
         btQtdPokemon.setOnAction(this::handleQtdPokemonAction);
         tfName.setOnKeyPressed(this::handleNameFieldAction);
         btName.setOnAction(this::handleNameAction);
@@ -113,7 +115,7 @@ public class TimeScenario extends Scenario {
             Jogador j = new Humano(name, pokemons);
             jogadores.add(j);
         } else {
-            Jogador j = new Maquina(name, pokemons);
+            Jogador j = new Maquina(name + " [IA]", pokemons);
             jogadores.add(j);
         }
         quant++;
@@ -259,11 +261,13 @@ public class TimeScenario extends Scenario {
             String texto = cbQtdPokemon.getSelectionModel().getSelectedItem().getText();
             int total = Integer.parseInt(texto);
             tvEspecie.setDisable(false);
+            tvEspecie.getSelectionModel().clearSelection();
             btEspecie.setDisable(false);
             lbErrorQtdPokemon.setVisible(false);
             btQtdPokemon.setDisable(true);
             cbQtdPokemon.setDisable(true);
             lbErrorQtdPokemon.setVisible(false);
+            cbQtdPokemon.getSelectionModel().clearSelection();
             selectPokemons(0, total);
         } catch (Exception e) {
             lbErrorQtdPokemon.setVisible(true);
@@ -301,17 +305,21 @@ public class TimeScenario extends Scenario {
                 }
             });
             tvEspecie.setOnKeyPressed(e -> {
-                int id = tvEspecie.getSelectionModel().getSelectedItem().getEspecie().getId();
-                showPreview(id, pokeAtual + 1);
-                if(e.getCode() == KeyCode.ENTER) {
-                    try {
-                        especies.add(tvEspecie.getSelectionModel().getSelectedItem().getEspecie());
-                        selectPokemons(pokeAtual + 1, totalPokemon);
-                        tvEspecie.getSelectionModel().clearSelection();
-                        lbErrorEspecie.setVisible(false);
-                    } catch (Exception ex) {
-                        lbErrorEspecie.setVisible(true);
+                try {
+                    int id = tvEspecie.getSelectionModel().getSelectedItem().getEspecie().getId();
+                    showPreview(id, pokeAtual + 1);
+                    if (e.getCode() == KeyCode.ENTER) {
+                        try {
+                            especies.add(tvEspecie.getSelectionModel().getSelectedItem().getEspecie());
+                            selectPokemons(pokeAtual + 1, totalPokemon);
+                            tvEspecie.getSelectionModel().clearSelection();
+                            lbErrorEspecie.setVisible(false);
+                        } catch (Exception ex) {
+                            lbErrorEspecie.setVisible(true);
+                        }
                     }
+                } catch (Exception ex) {
+                    lbErrorEspecie.setVisible(true);
                 }
             });
             tvEspecie.setOnMousePressed(e -> {
@@ -362,10 +370,12 @@ public class TimeScenario extends Scenario {
         try {
             String texto = cbQtdAtaque.getSelectionModel().getSelectedItem().getText();
             int total = Integer.parseInt(texto);
+            tvAtaque.getSelectionModel().clearSelection();
             tvAtaque.setDisable(false);
             btAtaque.setDisable(false);
             addAtaque(0, total, pokeAtual, totalPoke);
             lbErrorQtdAtaque.setVisible(false);
+            cbQtdAtaque.getSelectionModel().clearSelection();
         } catch (Exception e) {
             lbErrorQtdAtaque.setVisible(true);
             cbQtdAtaque.setDisable(false);
@@ -413,12 +423,12 @@ public class TimeScenario extends Scenario {
         });
         if(ataqueAtual + 1 >= totalAtaque) {
             try {
+                ataques.add(tvAtaque.getSelectionModel().getSelectedItem().getAtaque());
                 tvAtaque.setDisable(true);
                 btAtaque.setDisable(true);
                 tfLevel.setDisable(false);
                 btLevel.setDisable(false);
                 tfLevel.setPromptText("Level do " + especies.get(pokeAtual).getNome());
-                ataques.add(tvAtaque.getSelectionModel().getSelectedItem().getAtaque());
                 tvAtaque.getSelectionModel().clearSelection();
                 lbErrorAtaque.setVisible(false);
             } catch (Exception e) {

@@ -1,5 +1,6 @@
 package br.com.pokemon.player;
 
+import br.com.pokemon.player.enuns.Acao;
 import br.com.pokemon.poke.Pokemon;
 import br.com.pokemon.poke.atack.*;
 import br.com.pokemon.poke.enuns.Status;
@@ -19,6 +20,8 @@ public abstract class Jogador {
     static Scanner sc = new Scanner(System.in);
 
     private String nome;
+    private Acao acao;
+    private boolean vez;
     private List<Pokemon> pokemons = new ArrayList<>();
 
     /**
@@ -34,6 +37,22 @@ public abstract class Jogador {
 
     public String getNome() {
         return nome;
+    }
+
+    public Acao getAcao() {
+        return acao;
+    }
+
+    public void setAcao(Acao acao) {
+        this.acao = acao;
+    }
+
+    public boolean isVez() {
+        return vez;
+    }
+
+    public void setVez(boolean vez) {
+        this.vez = vez;
     }
 
     public List<Pokemon> getPokemons() {

@@ -41,7 +41,6 @@ public class InicialScenario extends Scenario {
 
     public void onConfigScene(Scene scene) {
         scene.getStylesheets().add("css/Style.css");
-        startTime.setText("Escolha quem vai controlar o time 1");
 
         Image image1 = new Image("img/scenarios/logo1.png");
         Image image2 = new Image("img/scenarios/logo2.png");
@@ -61,7 +60,7 @@ public class InicialScenario extends Scenario {
     public void onConfigStage(Stage stage) {
         setUpScenarioStyle(ScenarioStyle.BETTER_UNDECORATED);
         stage.setTitle("Batalha Pokemon v1.0");
-        startTime.setText("Escolha Quem Vai Controlar o Time " + (quant + 1));
+        startTime.setText("Escolha Quem Vai Controlar O Time " + (quant + 1));
         NodeCustomizer.setUpMenuBar(this, menu, exitButton, null, hideButton);
     }
 
