@@ -21,7 +21,6 @@ public abstract class Jogador {
 
     private String nome;
     private Acao acao;
-    private boolean vez;
     private List<Pokemon> pokemons = new ArrayList<>();
 
     /**
@@ -45,14 +44,6 @@ public abstract class Jogador {
 
     public void setAcao(Acao acao) {
         this.acao = acao;
-    }
-
-    public boolean isVez() {
-        return vez;
-    }
-
-    public void setVez(boolean vez) {
-        this.vez = vez;
     }
 
     public List<Pokemon> getPokemons() {

@@ -303,7 +303,7 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <TextArea fx:id="taLog" editable="false" layoutY="505.0" mouseTransparent="true" pickOnBounds="false" prefHeight="70.0" prefWidth="690.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <TextArea fx:id="taLog" layoutY="505.0" prefHeight="70.0" prefWidth="690.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
       <AnchorPane fx:id="apActionJogador" layoutY="582.0" prefHeight="140.0" prefWidth="720.0">
          <children>
             <HBox layoutX="15.0" prefHeight="20.0" prefWidth="690.0" style="-fx-background-color: #456aff;" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">

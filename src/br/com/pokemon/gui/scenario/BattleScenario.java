@@ -14,14 +14,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import java.util.Collections;
 import java.util.List;
 
 public class BattleScenario extends Scenario {
@@ -166,41 +164,53 @@ public class BattleScenario extends Scenario {
 
     public void onConfigScene(Scene scene) {
         scene.getStylesheets().add("css/Style.css");
+        taLog.setEditable(false);
         showInfo(1);
         showInfo(2);
         apChange.setDisable(true);
         apAtack.setDisable(true);
+        verificaJogadores();
+    }
+
+    private void verificaJogadores() {
         Jogador jogador1 = jogadores.get(0);
         Jogador jogador2 = jogadores.get(1);
         if(jogador1.isMaquina() && jogador2.isMaquina()) {
-            System.out.println("Fazer o computador ficar se atacando");
             apActionJogador.setDisable(true);
-            taLog.setText("Game Over!");
+            taLog.appendText(jogador1.getNome() + " Ação Escolhida!\n");
             jogador1.setAcao(Acao.ATACAR);
-            jogador2.setAcao(Acao.ATACAR);
-        } else if(jogador1.isMaquina() && !jogador2.isMaquina()) {
-            System.out.println("Setar Ação Do Jogador 1");
-            jogador1.setAcao(Acao.ATACAR);
-            jogador2.setVez(true);
-        } else if(!jogador1.isMaquina() && jogador2.isMaquina()) {
-            System.out.println("Setar Ação Do Jogador 2");
-            jogador1.setVez(true);
-            jogador2.setAcao(Acao.ATACAR);
-        } else {
-            System.out.println("Batalha entre duplas");
-            jogador1.setVez(true);
-            jogador2.setVez(false);
-        }
-        if(jogador1.isVez()) {
-            destacarJogadorVez(1);
-            lbJogadorVez.setText(jogador1.getNome());
-            taLog.setText(jogador1.getNome() + " Selecione Sua Ação!\n");
-        } else {
             destacarJogadorVez(2);
-            lbJogadorVez.setText(jogador2.getNome());
-            taLog.setText(jogador2.getNome() + " Selecione Sua Ação!\n");
+            taLog.appendText(jogador2.getNome() + " Ação Escolhida!\n");
+            jogador2.setAcao(Acao.ATACAR);
+        } else {
+            if (jogador1.isMaquina() && !jogador2.isMaquina()) {
+                taLog.appendText(jogador1.getNome() + " Ação Escolhida!\n");
+                jogador1.setAcao(Acao.ATACAR);
+                destacarJogadorVez(2);
+                lbJogadorVez.setText(jogador2.getNome());
+                taLog.appendText(jogador2.getNome() + " Selecione A Sua Ação\n");
+            } else if (!jogador1.isMaquina() && jogador2.isMaquina()) {
+                jogador2.setAcao(Acao.ATACAR);
+                destacarJogadorVez(1);
+                lbJogadorVez.setText(jogador1.getNome());
+                taLog.appendText(jogador1.getNome() + " Selecione A Sua Ação\n");
+            } else {
+                destacarJogadorVez(1);
+                lbJogadorVez.setText(jogador1.getNome());
+                taLog.appendText(jogador1.getNome() + " Selecione A Sua Ação\n");
+            }
+            adicionarAcao();
         }
+    }
 
+    private void adicionarAcao() {
+        btUseAtaque.setOnAction(this::btAtaqueAction);
+        btChangePokemon.setOnAction(this::btChangeAction);
+    }
+
+    private void removerAcao() {
+        btUseAtaque.setOnAction(null);
+        btChangePokemon.setOnAction(null);
     }
 
     private void showInfo(int player) {
@@ -319,56 +329,43 @@ public class BattleScenario extends Scenario {
     }
 
     private void btChangeAction(ActionEvent event) {
-        selecionarAcao();
+        selecionarAcao(Acao.TROCAR_POKEMON);
     }
 
     private void btAtaqueAction(ActionEvent event) {
-        selecionarAcao();
+        selecionarAcao(Acao.ATACAR);
     }
 
-    public void selecionarAcao() {
+    public void selecionarAcao(Acao acao) {
+        removerAcao();
         apChange.setDisable(true);
         apAtack.setDisable(true);
         Jogador jog1 = jogadores.get(0);
         Jogador jog2 = jogadores.get(1);
         if(jog1.getAcao() == null) {
-
-        }
-        Jogador timeAtaque = jogadores.get(vez);
-        Jogador timeDefesa = jogadores.get(espera);
-        lbJogadorVez.setText(timeAtaque.getNome());
-
-        while (acao_1[0] == 0) {
-            apAcao.setDisable(false);
-            if (timeAtaque.isMaquina()) {
-                acao_1[0] = 2;
+            jog1.setAcao(acao);
+            taLog.appendText(jog1.getNome() + " Ação Escolhida!\n");
+            if(jog2.getAcao() == null) {
+                adicionarAcao();
+                destacarJogadorVez(2);
+                taLog.appendText(jog2.getNome() + " Seleciona A Sua Ação!\n");
             } else {
-                if (timeAtaque.getPokemons().size() < 2) {
-                    acao_1[0] = 2;
-                } else {
-                    btAtaque.setOnAction(e -> acao_1[0] = 2);
-                    btChange.setOnAction(e -> acao_1[0] = 1);
-                }
+                taLog.appendText(jog2.getNome() + " Ação Escolhida!\n");
             }
+        }else if(jog2.getAcao() == null) {
+            jog2.setAcao(acao);
+            taLog.appendText(jog2.getNome() + " Ação Escolhida!\n");
         }
-        while (acao_2[0] == 0) {
-            apAcao.setDisable(false);
-            destacarJogadorVez(espera);
-            lbJogadorVez.setText(timeDefesa.getNome());
-            if (timeDefesa.isMaquina()) {
-                acao_2[0] = 2;
-            } else {
-                if (timeDefesa.getPokemons().size() < 2) {
-                    acao_2[0] = 2;
-                } else {
-                    btAtaque.setOnAction(e -> acao_2[0] = 2);
-                    btChange.setOnAction(e -> acao_2[0] = 1);
-                }
-            }
+        if(jog1.getAcao() != null && jog2.getAcao() != null) {
+            apActionJogador.setDisable(true);
+            executarAcoes();
         }
-        destacarJogadorVez(vez);
-        lbJogadorVez.setText(timeAtaque.getNome());
-        apAcao.setDisable(true);
+    }
+
+    private void executarAcoes() {
+        Acao acao1 = jogadores.get(0).getAcao();
+        Acao acao2 = jogadores.get(1).getAcao();
+        taLog.appendText("Jogador 1: " + acao1 + " Jogador 2: " + acao2);
     }
 
     private void destacarJogadorVez(int vez) {
