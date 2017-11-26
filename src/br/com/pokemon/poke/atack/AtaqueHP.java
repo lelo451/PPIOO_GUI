@@ -4,6 +4,9 @@ import br.com.pokemon.poke.Pokemon;
 import br.com.pokemon.poke.enuns.Status;
 
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Classe reponsavel por executar o ataque hp
@@ -15,9 +18,12 @@ public class AtaqueHP extends Ataque {
     }
 
     @Override
-    public void Efeito(Ataque ataque, Pokemon atacante, Pokemon enemy, String timeAtaque, String timeDefesa) throws FileNotFoundException {
+    public String Efeito(Ataque ataque, Pokemon atacante, Pokemon enemy, String timeAtaque, String timeDefesa) throws FileNotFoundException {
+        DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
+        StringBuilder ans = new StringBuilder();
         if (ataque.getPpAtual() < 1) {
             System.out.println("Não é possivel utilizar o ataque: " + ataque + "!");
+            ans.append("Não é possivel utilizar o ataque: ").append(ataque).append("!\n");
         } else {
             ataque.setPpAtual(ataque.getPpAtual() - 1);
             boolean acerto = calculoAcerto(ataque.getAccuracy(), atacante.getModifierAtk(), enemy.getModifierEvasion(), atacante);
@@ -30,7 +36,7 @@ public class AtaqueHP extends Ataque {
                 } else {
                     heal = atacante.getHpMax() * Double.parseDouble(parameter[1]);
                 }
-                mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa);
+                ans.append(mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa));
                 if(!atacante.getStatus().equals(Status.FAINTED)) {
                     if (atacante.getHpAtual() + heal > atacante.getHpMax()) {
                         atacante.setHpAtual(atacante.getHpMax());
@@ -39,13 +45,17 @@ public class AtaqueHP extends Ataque {
                     }
                     if (heal > 0) {
                         System.out.printf("%s do Time %s Curou %.2f\n", atacante.getEspecie().getNome(), timeAtaque, heal);
+                        ans.append(atacante.getEspecie().getNome()).append(" Do Time ").append(timeAtaque).append(" Curou ").append(df.format(heal)).append("!\n");
                     } else {
                         System.out.printf("%s do Time %s Consumiu %.2f\n", atacante.getEspecie().getNome(), timeAtaque, heal);
+                        ans.append(atacante.getEspecie().getNome()).append(" Do Time ").append(timeAtaque).append(" Consumiu ").append(df.format(heal)).append("!\n");
                     }
                 }
             } else {
                 System.out.println("O ataque " + ataque + " falhou!");
+                ans.append("O ataque ").append(ataque).append(" falhou!\n");
             }
         }
+        return ans.toString();
     }
 }

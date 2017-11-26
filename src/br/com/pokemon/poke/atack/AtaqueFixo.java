@@ -1,6 +1,9 @@
 package br.com.pokemon.poke.atack;
 
 import br.com.pokemon.poke.Pokemon;
+import br.com.pokemon.poke.enuns.Status;
+
+import java.util.Random;
 
 /**
  * Classe reponsavel por executar o ataque fixo
@@ -12,9 +15,11 @@ public class AtaqueFixo extends Ataque {
     }
 
     @Override
-    public void Efeito(Ataque ataque, Pokemon atacante, Pokemon enemy, String timeAtaque, String timeDefesa) {
+    public String Efeito(Ataque ataque, Pokemon atacante, Pokemon enemy, String timeAtaque, String timeDefesa) {
+        String ans = " ";
         if (ataque.getPpAtual() < 1) {
             System.out.println("Não é possivel utilizar o ataque: " + ataque + "!");
+            ans = "Não é possivel utilizar o ataque: " + ataque + "!\n";
         } else {
             ataque.setPpAtual(ataque.getPpAtual() - 1);
             boolean acerto = calculoAcerto(ataque.getAccuracy(), atacante.getModifierAtk(), enemy.getModifierEvasion(), atacante);
@@ -26,10 +31,12 @@ public class AtaqueFixo extends Ataque {
                 } else {
                     dano = Double.parseDouble(tipoDano);
                 }
-                mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa);
+                ans = mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa);
             } else {
                 System.out.println("O ataque " + ataque + " falhou!");
+                ans = "O ataque " + ataque + " falhou!";
             }
         }
+        return ans;
     }
 }

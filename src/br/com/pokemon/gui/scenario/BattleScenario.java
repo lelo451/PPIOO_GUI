@@ -6,11 +6,16 @@ import br.com.pokemon.player.Jogador;
 import br.com.pokemon.player.enuns.Acao;
 import br.com.pokemon.poke.Especie;
 import br.com.pokemon.poke.Pokemon;
+import br.com.pokemon.poke.atack.Ataque;
+import br.com.pokemon.poke.enuns.Status;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXProgressBar;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -20,7 +25,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BattleScenario extends Scenario {
 
@@ -148,6 +156,10 @@ public class BattleScenario extends Scenario {
     private AnchorPane apChange;
     @FXML
     private AnchorPane apAtack;
+    @FXML
+    private Button btStart;
+    @FXML
+    private Button btTurno;
 
     private List<Jogador> jogadores;
 
@@ -165,25 +177,60 @@ public class BattleScenario extends Scenario {
     public void onConfigScene(Scene scene) {
         scene.getStylesheets().add("css/Style.css");
         taLog.setEditable(false);
-        showInfo(1);
-        showInfo(2);
         apChange.setDisable(true);
         apAtack.setDisable(true);
-        verificaJogadores();
+        mostraInfo();
+        taLog.appendText("Pressione O Botão Abaixo Para Iniciar O Jogo!\n");
+        showInfo(1);
+        showInfo(2);
+        btStart.setOnAction(e -> {
+            apActionJogador.setVisible(true);
+            btStart.setVisible(false);
+            new Thread(longRunningTask).start();
+        });
     }
 
-    private void verificaJogadores() {
+    Task<Void> longRunningTask = new Task<Void>() {
+        @Override
+        protected Void call() throws Exception {
+            verificaJogadores();
+            return null;
+        }
+    };
+
+    private void mostraInfo() {
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                        showInfo(1);
+                        showInfo(2);
+                    }
+            );
+        }).start();
+    }
+
+    private void verificaJogadores() throws FileNotFoundException {
+        mostraInfo();
         Jogador jogador1 = jogadores.get(0);
         Jogador jogador2 = jogadores.get(1);
-        if(jogador1.isMaquina() && jogador2.isMaquina()) {
-            apActionJogador.setDisable(true);
-            taLog.appendText(jogador1.getNome() + " Ação Escolhida!\n");
-            jogador1.setAcao(Acao.ATACAR);
-            destacarJogadorVez(2);
-            taLog.appendText(jogador2.getNome() + " Ação Escolhida!\n");
-            jogador2.setAcao(Acao.ATACAR);
+        boolean player_1 = false, plater_2 = false;
+        player_1 = verificaFainted(jogador1.getPokemons());
+        plater_2 = verificaFainted(jogador2.getPokemons());
+        if (player_1 && plater_2) {
+            gameOver("Empate! Todos os Pokemons dos Dois Times Encontram-se Fora de Batalha");
+        } else if (player_1) {
+            gameOver("O Jogador " + jogador2.getNome() + " Ganhou!");
+        } else if (plater_2) {
+            gameOver("O Jogador " + jogador1.getNome() + " Ganhou!");
         } else {
-            if (jogador1.isMaquina() && !jogador2.isMaquina()) {
+            if (jogador1.isMaquina() && jogador2.isMaquina()) {
+                apActionJogador.setDisable(true);
+                taLog.appendText(jogador1.getNome() + " Ação Escolhida!\n");
+                jogador1.setAcao(Acao.ATACAR);
+                destacarJogadorVez(2);
+                taLog.appendText(jogador2.getNome() + " Ação Escolhida!\n");
+                jogador2.setAcao(Acao.ATACAR);
+                executarAcoes();
+            } else if (jogador1.isMaquina() && !jogador2.isMaquina()) {
                 taLog.appendText(jogador1.getNome() + " Ação Escolhida!\n");
                 jogador1.setAcao(Acao.ATACAR);
                 destacarJogadorVez(2);
@@ -203,6 +250,29 @@ public class BattleScenario extends Scenario {
         }
     }
 
+    private void gameOver(String s) {
+        taLog.appendText("Game Over!\n");
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Game Over!");
+                alert.setHeaderText(null);
+                alert.setContentText(s + "\nAperte o 'X' No Canto Superior\nDireito Para Encerar O Jogo!");
+                alert.showAndWait();
+            });
+        }).start();
+    }
+
+    private boolean verificaFainted(List<Pokemon> pokemons) {
+        int size = pokemons.size();
+        for (Pokemon p : pokemons) {
+            if (p.getStatus().equals(Status.FAINTED))
+                size--;
+        }
+        return size == 0;
+    }
+
+
     private void adicionarAcao() {
         btUseAtaque.setOnAction(this::btAtaqueAction);
         btChangePokemon.setOnAction(this::btChangeAction);
@@ -214,6 +284,7 @@ public class BattleScenario extends Scenario {
     }
 
     private void showInfo(int player) {
+        DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
         if (player == 1) {
             Jogador jogador = jogadores.get(0);
             Pokemon poke = jogador.getPokemons().get(0);
@@ -225,11 +296,11 @@ public class BattleScenario extends Scenario {
             lbEspecie1.setText(esp.getNome());
             setarProgressBar(poke, pgPoke1);
             lbLvl1.setText("LVL. " + String.valueOf(poke.getLevel()));
-            lbHp1.setText(String.valueOf(poke.getHpAtual()) + "/" + String.valueOf(poke.getHpMax()));
-            lbAtk1.setText(String.valueOf(poke.getAtk()));
-            lbDef1.setText(String.valueOf(poke.getDef()));
-            lbSpd1.setText(String.valueOf(poke.getSpd()));
-            lbSpe1.setText(String.valueOf(poke.getSpe()));
+            lbHp1.setText(String.valueOf(df.format(poke.getHpAtual())) + "/" + String.valueOf(df.format(poke.getHpMax())));
+            lbAtk1.setText(String.valueOf(df.format(poke.getAtk())));
+            lbDef1.setText(String.valueOf(df.format(poke.getDef())));
+            lbSpd1.setText(String.valueOf(df.format(poke.getSpd())));
+            lbSpe1.setText(String.valueOf(df.format(poke.getSpe())));
             lbStatus1.setText(poke.getStatus().toString());
             lbFlinch1.setText(poke.isFlinch() ? "FLINCH" : "");
             lbConfusion1.setText(poke.isConfusion() ? "Confusion" : "");
@@ -245,11 +316,11 @@ public class BattleScenario extends Scenario {
             lbEspecie2.setText(esp.getNome());
             lbLvl2.setText("LVL. " + String.valueOf(poke.getLevel()));
             setarProgressBar(poke, pgPoke2);
-            lbHp2.setText(String.valueOf(poke.getHpAtual()) + "/" + String.valueOf(poke.getHpMax()));
-            lbAtk2.setText(String.valueOf(poke.getAtk()));
-            lbDef2.setText(String.valueOf(poke.getDef()));
-            lbSpd2.setText(String.valueOf(poke.getSpd()));
-            lbSpe2.setText(String.valueOf(poke.getSpe()));
+            lbHp2.setText(String.valueOf(df.format(poke.getHpAtual())) + "/" + String.valueOf(poke.getHpMax()));
+            lbAtk2.setText(String.valueOf(df.format(poke.getAtk())));
+            lbDef2.setText(String.valueOf(df.format(poke.getDef())));
+            lbSpd2.setText(String.valueOf(df.format(poke.getSpd())));
+            lbSpe2.setText(String.valueOf(df.format(poke.getSpe())));
             lbStatus2.setText(poke.getStatus().toString());
             lbFlinch2.setText(poke.isFlinch() ? "FLINCH" : "");
             lbConfusion2.setText(poke.isConfusion() ? "Confusion" : "");
@@ -329,43 +400,150 @@ public class BattleScenario extends Scenario {
     }
 
     private void btChangeAction(ActionEvent event) {
-        selecionarAcao(Acao.TROCAR_POKEMON);
+        try {
+            selecionarAcao(Acao.TROCAR_POKEMON);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void btAtaqueAction(ActionEvent event) {
-        selecionarAcao(Acao.ATACAR);
+        try {
+            selecionarAcao(Acao.ATACAR);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void selecionarAcao(Acao acao) {
+    public void selecionarAcao(Acao acao) throws FileNotFoundException {
         removerAcao();
         apChange.setDisable(true);
         apAtack.setDisable(true);
         Jogador jog1 = jogadores.get(0);
         Jogador jog2 = jogadores.get(1);
-        if(jog1.getAcao() == null) {
+        if (jog1.getAcao() == null) {
             jog1.setAcao(acao);
             taLog.appendText(jog1.getNome() + " Ação Escolhida!\n");
-            if(jog2.getAcao() == null) {
+            if (jog2.getAcao() == null) {
                 adicionarAcao();
                 destacarJogadorVez(2);
                 taLog.appendText(jog2.getNome() + " Seleciona A Sua Ação!\n");
             } else {
                 taLog.appendText(jog2.getNome() + " Ação Escolhida!\n");
             }
-        }else if(jog2.getAcao() == null) {
+        } else if (jog2.getAcao() == null) {
             jog2.setAcao(acao);
             taLog.appendText(jog2.getNome() + " Ação Escolhida!\n");
         }
-        if(jog1.getAcao() != null && jog2.getAcao() != null) {
+        if (jog1.getAcao() != null && jog2.getAcao() != null) {
             apActionJogador.setDisable(true);
             executarAcoes();
         }
     }
 
-    private void executarAcoes() {
+    private void executarAcoes() throws FileNotFoundException {
         Acao acao1 = jogadores.get(0).getAcao();
         Acao acao2 = jogadores.get(1).getAcao();
-        taLog.appendText("Jogador 1: " + acao1 + " Jogador 2: " + acao2);
+        int vez = 0, espera = 0;
+        taLog.appendText("Executando As Ações Escolhidas!\n");
+        if (decidePrimeiraAcaoASerExecutada(jogadores.get(0).getPokemons().get(0).valorAtributo("SPD"), jogadores.get(1).getPokemons().get(0).valorAtributo("SPD"))) {
+            vez = 1;
+            espera = 0;
+        } else {
+            vez = 0;
+            espera = 1;
+        }
+        if (vez == 0) {
+            destacarJogadorVez(1);
+            if (jogadores.get(0).isMaquina())
+                executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
+        } else {
+            destacarJogadorVez(2);
+            if (jogadores.get(1).isMaquina())
+                executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
+        }
+    }
+
+    private void executaAcaoMaquina(Pokemon atacante, Pokemon defensor, Jogador vez, Jogador proximo) throws FileNotFoundException {
+        int all = atacante.getAtaques().size();
+        int choice = 1;
+        if (all > 1)
+            choice = ThreadLocalRandom.current().nextInt(0, all);
+        Ataque a = atacante.getAtaques().get(choice - 1);
+        String tipo = a.getClasse();
+        taLog.appendText(executaAtaque(a, tipo, atacante, defensor, vez, proximo));
+        mostraInfo();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        executarAcaoSegundoJogador(defensor, atacante, proximo, vez);
+    }
+
+    private void executarAcaoSegundoJogador(Pokemon atacante, Pokemon defensor, Jogador vez, Jogador proximo) throws FileNotFoundException {
+        int all = atacante.getAtaques().size();
+        int choice = 1;
+        if (all > 1)
+            choice = ThreadLocalRandom.current().nextInt(0, all);
+        Ataque a = atacante.getAtaques().get(choice - 1);
+        String tipo = a.getClasse();
+        taLog.appendText(executaAtaque(a, tipo, atacante, defensor, vez, proximo));
+        mostraInfo();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        verificaJogadores();
+    }
+
+    private String executaAtaque(Ataque a, String tipo, Pokemon atacante, Pokemon defensor, Jogador vez, Jogador proximo) throws FileNotFoundException {
+        StringBuilder ans = new StringBuilder();
+        switch (tipo) {
+            case "charge":
+                ans.append("O Pokemon ").append(atacante.getEspecie().getNome()).append(" Irá Fazer Um Charge Atack\nE Por Isso Atacará No Próximo Turno!\n");
+                secondTime(proximo, defensor, atacante, vez);
+                secondTime(proximo, defensor, atacante, vez);
+                ans.append(a.Efeito(a, atacante, defensor, vez.getNome(), proximo.getNome()));
+                break;
+            case "comum":
+                ans.append(a.Efeito(a, atacante, defensor, vez.getNome(), proximo.getNome()));
+                break;
+            case "fixo":
+                ans.append(a.Efeito(a, atacante, defensor, vez.getNome(), proximo.getNome()));
+                break;
+            case "hp":
+                ans.append(a.Efeito(a, atacante, defensor, vez.getNome(), proximo.getNome()));
+                break;
+            case "modifier":
+                ans.append(a.Efeito(a, atacante, defensor, vez.getNome(), proximo.getNome()));
+                break;
+            case "multihit":
+                ans.append(a.Efeito(a, atacante, defensor, vez.getNome(), proximo.getNome()));
+                break;
+            case "status":
+                ans.append(a.Efeito(a, atacante, defensor, vez.getNome(), proximo.getNome()));
+                break;
+        }
+        return ans.toString();
+    }
+
+    private void secondTime(Jogador vez, Pokemon atacante, Pokemon defensor, Jogador proximo) {
+        if (vez.isMaquina()) {
+            int all = atacante.getAtaques().size();
+            int choice = ThreadLocalRandom.current().nextInt(0, all);
+            Ataque a = atacante.getAtaques().get(choice);
+            try {
+                executaAtaque(a, a.getClasse(), atacante, defensor, vez, proximo);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean decidePrimeiraAcaoASerExecutada(double spd1, double spd2) {
+        return spd2 > spd1;
     }
 
     private void destacarJogadorVez(int vez) {

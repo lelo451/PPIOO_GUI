@@ -6,6 +6,7 @@ import br.com.pokemon.poke.enuns.Status;
 import br.com.pokemon.poke.enuns.Tipo;
 
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,11 +112,14 @@ public abstract class Ataque {
      * @param timeAtaque nome do time que está realizando o ataque
      * @param timeDefesa nome do time que está realizando a defesa
      */
-    public static void mensagemDeDano(Pokemon atacante, Pokemon enemy, double dano, String timeAtaque, String timeDefesa) {
+    public static String mensagemDeDano(Pokemon atacante, Pokemon enemy, double dano, String timeAtaque, String timeDefesa) {
+        DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
+        String ans = " ";
         if(atacante.isConfusion()) {
             if(new Random().nextInt(100) < 50) {
                 atacante.setHpAtual(atacante.getHpAtual() - dano);
-                System.out.printf("%s do Time %s Causo %.2f Nele Mesmo Devido ao Status CONFUSION", atacante.getEspecie().getNome(), timeAtaque, dano, enemy.getEspecie().getNome());
+                System.out.printf("%s do Time %s Causou %.2f Nele Mesmo Devido ao Status CONFUSION", atacante.getEspecie().getNome(), timeAtaque, dano, enemy.getEspecie().getNome());
+                ans = atacante.getEspecie().getNome() + " Do Time " + timeAtaque + " Causou " + df.format(dano) + " Nele Mesmo Devido ao Status CONFUSION\n";
             } else {
                 enemy.setHpAtual(enemy.getHpAtual() - dano);
                 if(enemy.getHpAtual() <= 0) {
@@ -123,6 +127,7 @@ public abstract class Ataque {
                     enemy.setStatus(Status.FAINTED);
                 }
                 System.out.printf("%s do Time %s Causou %.2f em %s do Time %s\n", atacante.getEspecie().getNome(), timeAtaque, dano, enemy.getEspecie().getNome(), timeDefesa);
+                ans = atacante.getEspecie().getNome()  + " Do Time " + timeAtaque + " Causou " + df.format(dano) + " No Pokemon " + enemy.getEspecie().getNome() + " Do Time " + timeDefesa + " !\n";
             }
         } else {
             enemy.setHpAtual(enemy.getHpAtual() - dano);
@@ -131,7 +136,9 @@ public abstract class Ataque {
                 enemy.setStatus(Status.FAINTED);
             }
             System.out.printf("%s do Time %s Causou %.2f em %s do Time %s\n", atacante.getEspecie().getNome(), timeAtaque, dano, enemy.getEspecie().getNome(), timeDefesa);
+            ans = atacante.getEspecie().getNome() + " Do Time " + timeAtaque + " Causou " + df.format(dano) + " No Pokemon " + enemy.getEspecie().getNome() + " Do Time " + timeDefesa + "!\n";
         }
+        return ans;
     }
 
     /**
@@ -143,7 +150,7 @@ public abstract class Ataque {
      * @param TimeDefesa time realizando a defesa
      * @throws FileNotFoundException
      */
-    public abstract void Efeito(Ataque ataque, Pokemon atacante, Pokemon enemy, String timeAtaque, String TimeDefesa) throws FileNotFoundException;
+    public abstract String Efeito(Ataque ataque, Pokemon atacante, Pokemon enemy, String timeAtaque, String TimeDefesa) throws FileNotFoundException;
 
     /**
      * Metódo responsável por calcular o dano a ser infligido por um pokemon

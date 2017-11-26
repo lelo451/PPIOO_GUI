@@ -1,8 +1,10 @@
 package br.com.pokemon.poke.atack;
 
 import br.com.pokemon.poke.Pokemon;
+import br.com.pokemon.poke.enuns.Status;
 
 import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -15,9 +17,11 @@ public class AtaqueMultiHit extends Ataque {
     }
 
     @Override
-    public void Efeito(Ataque ataque, Pokemon atacante, Pokemon enemy, String timeAtaque, String timeDefesa) throws FileNotFoundException {
+    public String Efeito(Ataque ataque, Pokemon atacante, Pokemon enemy, String timeAtaque, String timeDefesa) throws FileNotFoundException {
+        String ans = " ";
         if (ataque.getPpAtual() < 1) {
             System.out.println("Não é possivel utilizar o ataque: " + ataque + "!");
+            ans = "Não é possivel utilizar o ataque: " + ataque + "!\n";
         } else {
             ataque.setPpAtual(ataque.getPpAtual() - 1);
             boolean acerto = calculoAcerto(ataque.getAccuracy(), atacante.getModifierAtk(), enemy.getModifierEvasion(), atacante);
@@ -29,10 +33,12 @@ public class AtaqueMultiHit extends Ataque {
                 for(int i = 0; i < vezes; i++) {
                     dano += calculoDano(ataque, atacante, enemy, critico, false);
                 }
-                mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa);
+                ans = mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa);
             } else {
                 System.out.println("O ataque " + ataque + " falhou!");
+                ans = "O ataque " + ataque + " falhou!\n";
             }
         }
+        return ans;
     }
 }

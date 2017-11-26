@@ -16,9 +16,11 @@ public class AtaqueStatus extends Ataque {
     }
 
     @Override
-    public void Efeito(Ataque ataque, Pokemon atacante, Pokemon enemy, String timeAtaque, String timeDefesa) throws FileNotFoundException {
+    public String Efeito(Ataque ataque, Pokemon atacante, Pokemon enemy, String timeAtaque, String timeDefesa) throws FileNotFoundException {
+        String ans = " ";
         if (ataque.getPpAtual() < 1) {
             System.out.println("Não é possivel utilizar o ataque: " + ataque + "!");
+            ans = "Não é possivel utilizar o ataque: " + ataque + "!\n";
         } else {
             ataque.setPpAtual(ataque.getPpAtual() - 1);
             boolean acerto = calculoAcerto(ataque.getAccuracy(), atacante.getModifierAtk(), enemy.getModifierEvasion(), atacante);
@@ -41,10 +43,12 @@ public class AtaqueStatus extends Ataque {
                             enemy.setStatus(Status.valueOf(parameter[0].toUpperCase()));
                         break;
                 }
-                mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa);
+                ans = mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa);
             } else {
                 System.out.println("O ataque " + ataque + " falhou!");
+                ans = "O ataque " + ataque + " falhou!\n";
             }
         }
+        return ans;
     }
 }
