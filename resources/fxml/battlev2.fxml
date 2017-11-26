@@ -338,9 +338,11 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="imgChange1" fitHeight="50.0" fitWidth="50.0" layoutX="15.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="15.0" />
-                  <ImageView fx:id="imgChange2" fitHeight="50.0" fitWidth="50.0" layoutX="90.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="imgChange3" fitHeight="50.0" fitWidth="50.0" layoutX="125.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="15.0" />
+                  <ImageView fx:id="imgChange1" fitHeight="30.0" fitWidth="30.0" layoutX="15.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="15.0" />
+                  <ImageView fx:id="imgChange2" fitHeight="30.0" fitWidth="30.0" layoutX="50.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgChange3" fitHeight="30.0" fitWidth="30.0" layoutX="85.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgChange4" fitHeight="30.0" fitWidth="30.0" layoutX="130.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgChange5" fitHeight="30.0" fitWidth="30.0" layoutX="165.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
                   <Button fx:id="btChange" layoutX="122.0" layoutY="96.0" mnemonicParsing="false" text="SELECIONAR" textFill="#456aff" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="15.0">
                      <font>
                         <Font size="12.0" />
