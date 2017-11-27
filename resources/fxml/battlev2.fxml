@@ -338,11 +338,6 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="imgChange1" fitHeight="30.0" fitWidth="30.0" layoutX="15.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="15.0" />
-                  <ImageView fx:id="imgChange2" fitHeight="30.0" fitWidth="30.0" layoutX="50.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="imgChange3" fitHeight="30.0" fitWidth="30.0" layoutX="85.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="imgChange4" fitHeight="30.0" fitWidth="30.0" layoutX="130.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="imgChange5" fitHeight="30.0" fitWidth="30.0" layoutX="165.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
                   <Button fx:id="btChange" layoutX="122.0" layoutY="96.0" mnemonicParsing="false" text="SELECIONAR" textFill="#456aff" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="15.0">
                      <font>
                         <Font size="12.0" />
@@ -353,6 +348,7 @@
                         <Font size="12.0" />
                      </font>
                   </Label>
+                  <JFXComboBox fx:id="cbChange" layoutX="15.0" layoutY="45.0" prefHeight="26.0" prefWidth="200.0" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="apAtack" layoutX="475.0" layoutY="20.0" prefHeight="120.0" prefWidth="230.0">
@@ -362,7 +358,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="cbAtaque" layoutX="15.0" layoutY="47.0" prefHeight="26.0" prefWidth="200.0" />
+                  <JFXComboBox fx:id="cbAtaque" layoutX="15.0" layoutY="45.0" prefHeight="26.0" prefWidth="200.0" />
                   <Button fx:id="btAtaque" layoutX="118.0" layoutY="85.0" mnemonicParsing="false" text="SELECIONAR" textFill="#456aff" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="15.0">
                      <font>
                         <Font size="12.0" />

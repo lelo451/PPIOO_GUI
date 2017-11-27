@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -130,15 +131,7 @@ public class BattleScenario extends Scenario {
     @FXML
     private Label lbErrorAcao;
     @FXML
-    private ImageView imgChange1;
-    @FXML
-    private ImageView imgChange2;
-    @FXML
-    private ImageView imgChange3;
-    @FXML
-    private ImageView imgChange4;
-    @FXML
-    private ImageView imgChange5;
+    private JFXComboBox<Label> cbChange;
     @FXML
     private Button btChange;
     @FXML
@@ -216,6 +209,7 @@ public class BattleScenario extends Scenario {
     private void verificaJogadores() throws FileNotFoundException {
         changePokemons();
         mostraInfo();
+        habilitarPaineis();
         Jogador jogador1 = jogadores.get(0);
         Jogador jogador2 = jogadores.get(1);
         boolean player_1 = false, plater_2 = false;
@@ -229,25 +223,27 @@ public class BattleScenario extends Scenario {
             gameOver("O Jogador " + jogador1.getNome() + " Ganhou!");
         } else {
             if (jogador1.isMaquina() && jogador2.isMaquina()) {
-                apActionJogador.setDisable(true);
+                apAcao.setDisable(true);
                 taLog.appendText(jogador1.getNome() + " Ação Escolhida!\n");
                 jogador1.setAcao(Acao.ATACAR);
                 taLog.appendText(jogador2.getNome() + " Ação Escolhida!\n");
                 jogador2.setAcao(Acao.ATACAR);
                 executarAcoes();
             } else if (jogador1.isMaquina() && !jogador2.isMaquina()) {
+                limparAcaoJogadores();
                 taLog.appendText(jogador1.getNome() + " Ação Escolhida!\n");
                 jogador1.setAcao(Acao.ATACAR);
                 destacarJogadorVez(2);
                 lbJogadorVez.setText(jogador2.getNome());
                 taLog.appendText(jogador2.getNome() + " Selecione A Sua Ação\n");
-                selectAction(jogador2);
             } else if (!jogador1.isMaquina() && jogador2.isMaquina()) {
+                limparAcaoJogadores();
                 jogador2.setAcao(Acao.ATACAR);
                 destacarJogadorVez(1);
                 lbJogadorVez.setText(jogador1.getNome());
                 taLog.appendText(jogador1.getNome() + " Selecione A Sua Ação\n");
             } else {
+                limparAcaoJogadores();
                 destacarJogadorVez(1);
                 lbJogadorVez.setText(jogador1.getNome());
                 taLog.appendText(jogador1.getNome() + " Selecione A Sua Ação\n");
@@ -256,24 +252,31 @@ public class BattleScenario extends Scenario {
         }
     }
 
-    private void selectAction(Jogador jogador2) {
+    private void habilitarPaineis() {
+        apAcao.setDisable(false);
+        apChange.setDisable(true);
+        apAtack.setDisable(true);
+    }
 
+    private void limparAcaoJogadores() {
+        jogadores.get(0).setAcao(null);
+        jogadores.get(1).setAcao(null);
     }
 
     private void changePokemons() {
         Jogador jog1 = jogadores.get(0);
         Jogador jog2 = jogadores.get(1);
-        if(jog1.getPokemons().size() > 1) {
-            if(jog1.getPokemons().get(0).getStatus().equals(Status.FAINTED)) {
-                if(!verificaFainted(jog1.getPokemons())) {
+        if (jog1.getPokemons().size() > 1) {
+            if (jog1.getPokemons().get(0).getStatus().equals(Status.FAINTED)) {
+                if (!verificaFainted(jog1.getPokemons())) {
                     Collections.rotate(jog1.getPokemons(), jog1.getPokemons().size() - 1);
                     taLog.appendText("O Pokemon " + jog1.getPokemons().get(jog1.getPokemons().size() - 1).getEspecie().getNome() + " Foi Trocado Por " + jog1.getPokemons().get(0).getEspecie().getNome() + " Do Time " + jog1.getNome() + "!\n");
                 }
             }
         }
-        if(jog2.getPokemons().size() > 1) {
-            if(jog2.getPokemons().get(0).getStatus().equals(Status.FAINTED)) {
-                if(!verificaFainted(jog2.getPokemons())) {
+        if (jog2.getPokemons().size() > 1) {
+            if (jog2.getPokemons().get(0).getStatus().equals(Status.FAINTED)) {
+                if (!verificaFainted(jog2.getPokemons())) {
                     Collections.rotate(jog2.getPokemons(), jog2.getPokemons().size() - 1);
                     taLog.appendText("O Pokemon " + jog2.getPokemons().get(jog2.getPokemons().size() - 1).getEspecie().getNome() + " Foi Trocado Por " + jog2.getPokemons().get(0).getEspecie().getNome() + " Do Time " + jog1.getNome() + "!\n");
                 }
@@ -472,12 +475,13 @@ public class BattleScenario extends Scenario {
             taLog.appendText(jog2.getNome() + " Ação Escolhida!\n");
         }
         if (jog1.getAcao() != null && jog2.getAcao() != null) {
-            apActionJogador.setDisable(true);
+            apAcao.setDisable(true);
             executarAcoes();
         }
     }
 
     private void executarAcoes() throws FileNotFoundException {
+        apAcao.setDisable(true);
         Acao acao1 = jogadores.get(0).getAcao();
         Acao acao2 = jogadores.get(1).getAcao();
         int vez = 0, espera = 0;
@@ -489,26 +493,189 @@ public class BattleScenario extends Scenario {
             vez = 0;
             espera = 1;
         }
-        if(jogadores.get(0).isMaquina() && jogadores.get(1).isMaquina()) {
+        removerDestaque();
+        if (jogadores.get(0).isMaquina() && jogadores.get(1).isMaquina()) {
             if (vez == 0)
                 executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
             else
                 executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
+        } else {
+            if (jogadores.get(0).isMaquina()) {
+                executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
+            } else {
+                executaAcaoHumano(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera), false);
+            }
         }
     }
 
+    private void executaAcaoHumano(Pokemon atacante, Pokemon defensor, Jogador vez, Jogador proximo, boolean isSegundo) {
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                if (vez.getAcao().equals(Acao.TROCAR_POKEMON)) {
+                    apChange.setDisable(false);
+                    cbChange.setPromptText("Selecione Um Pokemon");
+                    cbChange.getItems().clear();
+                    for (int i = 1; i < vez.getPokemons().size(); i++) {
+                        cbChange.getItems().add(new Label(i + "- " + vez.getPokemons().get(i).getEspecie().getNome()));
+                    }
+                    btChange.setOnAction(e -> {
+                        String[] toChange = cbChange.getSelectionModel().getSelectedItem().getText().split("-");
+                        int pokemon = Integer.parseInt(toChange[0]);
+                        if (vez.getPokemons().get(pokemon).getStatus().equals(Status.FAINTED)) {
+                            lbErrorChange.setVisible(true);
+                        } else {
+                            Collections.swap(vez.getPokemons(), 0, pokemon);
+                            changeMessage(vez.getPokemons().get(pokemon).getEspecie().getNome(), vez.getPokemons().get(0).getEspecie().getNome(), vez.getNome());
+                            if (!isSegundo) {
+                                if (proximo.isMaquina()) {
+                                    try {
+                                        executarAcaoSegundoJogadorIA(defensor, vez.getPokemons().get(0), proximo, vez);
+                                    } catch (FileNotFoundException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                } else {
+                                    executaAcaoHumano(defensor, vez.getPokemons().get(0), proximo, vez, true);
+                                }
+                            } else {
+                                try {
+                                    verificaJogadores();
+                                } catch (FileNotFoundException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+                    cbChange.setOnKeyPressed(e -> {
+                        if (e.getCode() == KeyCode.ENTER) {
+                            String[] toChange = cbChange.getSelectionModel().getSelectedItem().getText().split("-");
+                            int pokemon = Integer.parseInt(toChange[0]);
+                            if (vez.getPokemons().get(pokemon).getStatus().equals(Status.FAINTED)) {
+                                lbErrorChange.setVisible(true);
+                            } else {
+                                Collections.swap(vez.getPokemons(), 0, pokemon);
+                                changeMessage(vez.getPokemons().get(pokemon).getEspecie().getNome(), vez.getPokemons().get(0).getEspecie().getNome(), vez.getNome());
+                                if (!isSegundo) {
+                                    if (proximo.isMaquina()) {
+                                        try {
+                                            executarAcaoSegundoJogadorIA(defensor, vez.getPokemons().get(0), proximo, vez);
+                                        } catch (FileNotFoundException e1) {
+                                            e1.printStackTrace();
+                                        }
+                                    } else {
+                                        executaAcaoHumano(defensor, vez.getPokemons().get(0), proximo, vez, true);
+                                    }
+                                } else {
+                                    try {
+                                        verificaJogadores();
+                                    } catch (FileNotFoundException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    apAtack.setDisable(false);
+                    cbAtaque.setPromptText("Selecione Um Ataque");
+                    cbAtaque.getItems().clear();
+                    for (int i = 0; i < vez.getPokemons().size(); i++) {
+                        cbAtaque.getItems().add(new Label((i + 1) + "- " + atacante.getAtaques().get(i).getNome().replace("_", "") + " - " + atacante.getAtaques().get(i).getPpAtual() + " Vezes Restantes!"));
+                    }
+                    btAtaque.setOnAction(e -> {
+                        String[] toUse = cbAtaque.getSelectionModel().getSelectedItem().getText().split("-");
+                        int ataque = Integer.parseInt(toUse[0]);
+                        Ataque a = atacante.getAtaques().get(ataque - 1);
+                        String tipo = a.getClasse();
+                        if (verificarAtaque(atacante, a, vez)) {
+                            try {
+                                taLog.appendText(executaAtaque(a, tipo, atacante, defensor, vez, proximo));
+                            } catch (FileNotFoundException e1) {
+                                e1.printStackTrace();
+                            }
+                            mostraInfo();
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
+                            if (!isSegundo) {
+                                if (proximo.isMaquina()) {
+                                    try {
+                                        executarAcaoSegundoJogadorIA(defensor, vez.getPokemons().get(0), proximo, vez);
+                                    } catch (FileNotFoundException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                } else {
+                                    executaAcaoHumano(defensor, vez.getPokemons().get(0), proximo, vez, true);
+                                }
+                            } else {
+                                try {
+                                    verificaJogadores();
+                                } catch (FileNotFoundException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+                        } else {
+                            gameOver(proximo.getNome() + " Ganhou!\nO Pokemon " + atacante.getEspecie().getNome() + " Do Time " + vez.getNome() + " Não Tem Mais Ataques!");
+                        }
+                    });
+                    cbAtaque.setOnKeyPressed(e -> {
+                        if (e.getCode() == KeyCode.ENTER) {
+                            String[] toUse = cbAtaque.getSelectionModel().getSelectedItem().getText().split("-");
+                            int ataque = Integer.parseInt(toUse[0]);
+                            Ataque a = atacante.getAtaques().get(ataque - 1);
+                            String tipo = a.getClasse();
+                            if (verificarAtaque(atacante, a, vez)) {
+                                try {
+                                    taLog.appendText(executaAtaque(a, tipo, atacante, defensor, vez, proximo));
+                                } catch (FileNotFoundException e1) {
+                                    e1.printStackTrace();
+                                }
+                                mostraInfo();
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException ex) {
+                                    ex.printStackTrace();
+                                }
+                                if (!isSegundo) {
+                                    if (proximo.isMaquina()) {
+                                        try {
+                                            executarAcaoSegundoJogadorIA(defensor, vez.getPokemons().get(0), proximo, vez);
+                                        } catch (FileNotFoundException e1) {
+                                            e1.printStackTrace();
+                                        }
+                                    } else {
+                                        executaAcaoHumano(defensor, vez.getPokemons().get(0), proximo, vez, true);
+                                    }
+                                } else {
+                                    try {
+                                        verificaJogadores();
+                                    } catch (FileNotFoundException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                }
+                            } else {
+                                gameOver(proximo.getNome() + " Ganhou!\nO Pokemon " + atacante.getEspecie().getNome() + " Do Time " + vez.getNome() + " Não Tem Mais Ataques!");
+                            }
+                        }
+                    });
+                }
+            });
+        }).start();
+    }
+
+    private void changeMessage(String pokemonTrocado, String pokemonAtual, String timeAcao) {
+        taLog.appendText("O Pokemon " + pokemonTrocado + " Foi Trocado Pelo Pokemon " + pokemonAtual + " Do Time " + timeAcao + "!\n");
+    }
+
     private void executaAcaoMaquina(Pokemon atacante, Pokemon defensor, Jogador vez, Jogador proximo) throws FileNotFoundException {
-        pTime1.setDisable(false);
-        pTime1.setStyle("-fx-border-color: none");
-        pTime2.setDisable(false);
-        pTime2.setStyle("-fx-border-color: none");
         int all = atacante.getAtaques().size();
         int choice = 1;
         if (all > 1)
             choice = ThreadLocalRandom.current().nextInt(0, all);
         Ataque a = atacante.getAtaques().get(choice - 1);
         String tipo = a.getClasse();
-        if(verificarAtaque(atacante, a)) {
+        if (verificarAtaque(atacante, a, vez)) {
             taLog.appendText(executaAtaque(a, tipo, atacante, defensor, vez, proximo));
             mostraInfo();
             try {
@@ -516,10 +683,74 @@ public class BattleScenario extends Scenario {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            executarAcaoSegundoJogadorIA(defensor, atacante, proximo, vez);
+            if (proximo.isMaquina())
+                executarAcaoSegundoJogadorIA(defensor, atacante, proximo, vez);
+            else {
+                executaAcaoHumano(defensor, atacante, proximo, vez, true);
+            }
         } else {
             gameOver(proximo.getNome() + " Ganhou!\nO Pokemon " + atacante.getEspecie().getNome() + " Do Time " + vez.getNome() + " Não Tem Mais Ataques!");
         }
+    }
+
+    /*
+        private void executaAcaoSegundoJogadorHumano(Pokemon atacante, Pokemon defensor, Jogador vez, Jogador proximo) {
+            new Thread(() -> {
+                Platform.runLater(() -> {
+                    if (vez.getAcao().equals(Acao.TROCAR_POKEMON)) {
+                        apChange.setDisable(false);
+                        cbChange.setPromptText("Selecione Um Pokemon");
+                        for (int i = 1; i < vez.getPokemons().size(); i++) {
+                            cbChange.getItems().add(new Label(i + "- " + vez.getPokemons().get(i).getEspecie().getNome()));
+                        }
+                        btChange.setOnAction(e -> {
+                            String[] toChange = cbChange.getSelectionModel().getSelectedItem().getText().split("-");
+                            int pokemon = Integer.parseInt(toChange[0]);
+                            if(vez.getPokemons().get(pokemon).getStatus().equals(Status.FAINTED)) {
+                                lbErrorChange.setVisible(true);
+                            } else {
+                                Collections.swap(vez.getPokemons(), 0, pokemon);
+                                changeMessage(vez.getPokemons().get(pokemon).getEspecie().getNome(), vez.getPokemons().get(0).getEspecie().getNome(), vez.getNome());
+                                try {
+                                    verificaJogadores();
+                                } catch (FileNotFoundException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+                        });
+                        cbChange.setOnKeyPressed(e -> {
+                            if (e.getCode() == KeyCode.ENTER) {
+                                String[] toChange = cbChange.getSelectionModel().getSelectedItem().getText().split("-");
+                                int pokemon = Integer.parseInt(toChange[0]);
+                                if(vez.getPokemons().get(pokemon).getStatus().equals(Status.FAINTED)) {
+                                    lbErrorChange.setVisible(true);
+                                } else {
+                                    Collections.swap(vez.getPokemons(), 0, pokemon);
+                                    changeMessage(vez.getPokemons().get(pokemon).getEspecie().getNome(), vez.getPokemons().get(0).getEspecie().getNome(), vez.getNome());
+                                    if(proximo.isMaquina()) {
+                                        try {
+                                            executarAcaoSegundoJogadorIA(defensor, vez.getPokemons().get(0), proximo, vez);
+                                        } catch (FileNotFoundException e1) {
+                                            e1.printStackTrace();
+                                        }
+                                    } else {
+                                        executaAcaoSegundoJogadorHumano(defensor, vez.getPokemons().get(0), proximo, vez);
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        apAtack.setDisable(false);
+                    }
+                });
+            }).start();
+        }
+    */
+    private void removerDestaque() {
+        pTime1.setDisable(false);
+        pTime1.setStyle("-fx-border-color: none");
+        pTime2.setDisable(false);
+        pTime2.setStyle("-fx-border-color: none");
     }
 
     private void executarAcaoSegundoJogadorIA(Pokemon atacante, Pokemon defensor, Jogador vez, Jogador proximo) throws FileNotFoundException {
@@ -529,7 +760,7 @@ public class BattleScenario extends Scenario {
             choice = ThreadLocalRandom.current().nextInt(0, all);
         Ataque a = atacante.getAtaques().get(choice - 1);
         String tipo = a.getClasse();
-        if(verificarAtaque(atacante, a)) {
+        if (verificarAtaque(atacante, a, vez)) {
             taLog.appendText(executaAtaque(a, tipo, atacante, defensor, vez, proximo));
             mostraInfo();
             try {
@@ -543,10 +774,19 @@ public class BattleScenario extends Scenario {
         }
     }
 
-    private boolean verificarAtaque(Pokemon atacante, Ataque a) {
-        if(a.getPpAtual() == 0.0) {
-            if(atacante.getAtaques().size() == 1) {
-                return false;
+    private boolean verificarAtaque(Pokemon atacante, Ataque a, Jogador vez) {
+        if (a.getPpAtual() == 0.0) {
+            if (atacante.getAtaques().size() == 1) {
+                if (vez.getPokemons().size() == 1) {
+                    return false;
+                } else {
+                    if (!verificaFainted(vez.getPokemons())) {
+                        Collections.rotate(vez.getPokemons(), vez.getPokemons().size() - 1);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             } else {
                 atacante.getAtaques().remove(a);
                 return true;
