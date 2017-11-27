@@ -121,19 +121,21 @@ public abstract class Ataque {
                 System.out.printf("%s do Time %s Causou %.2f Nele Mesmo Devido ao Status CONFUSION\n", atacante.getEspecie().getNome(), timeAtaque, dano, enemy.getEspecie().getNome());
                 ans = atacante.getEspecie().getNome() + " Do Time " + timeAtaque + " Causou " + df.format(dano) + " Nele Mesmo Devido ao Status CONFUSION\n";
             } else {
-                enemy.setHpAtual(enemy.getHpAtual() - dano);
-                if(enemy.getHpAtual() <= 0) {
+                if(enemy.getHpAtual() - dano <= 0.0) {
                     enemy.setHpAtual(0);
                     enemy.setStatus(Status.FAINTED);
+                } else {
+                    enemy.setHpAtual(enemy.getHpAtual() - dano);
                 }
                 System.out.printf("%s do Time %s Causou %.2f em %s do Time %s\n", atacante.getEspecie().getNome(), timeAtaque, dano, enemy.getEspecie().getNome(), timeDefesa);
                 ans = atacante.getEspecie().getNome()  + " Do Time " + timeAtaque + " Causou " + df.format(dano) + " No Pokemon " + enemy.getEspecie().getNome() + " Do Time " + timeDefesa + " !\n";
             }
         } else {
-            enemy.setHpAtual(enemy.getHpAtual() - dano);
-            if(enemy.getHpAtual() <= 0) {
+            if(enemy.getHpAtual() - dano <= 0.0) {
                 enemy.setHpAtual(0);
                 enemy.setStatus(Status.FAINTED);
+            } else {
+                enemy.setHpAtual(enemy.getHpAtual() - dano);
             }
             System.out.printf("%s do Time %s Causou %.2f em %s do Time %s\n", atacante.getEspecie().getNome(), timeAtaque, dano, enemy.getEspecie().getNome(), timeDefesa);
             ans = atacante.getEspecie().getNome() + " Do Time " + timeAtaque + " Causou " + df.format(dano) + " No Pokemon " + enemy.getEspecie().getNome() + " Do Time " + timeDefesa + "!\n";

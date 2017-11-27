@@ -118,7 +118,4 @@ class Verificacoes {
         }
         return ans;
     }
-
-
-
 }

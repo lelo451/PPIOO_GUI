@@ -1,5 +1,5 @@
 package br.com.pokemon.poke.enuns;
 
 public enum Tipo2Atack {
-    FIRE, WATER, ELETRIC, GLASS, ICE, PSYCHIC, DRAGON
+    FIRE, WATER, ELETRIC, GRASS, ICE, PSYCHIC, DRAGON
 }

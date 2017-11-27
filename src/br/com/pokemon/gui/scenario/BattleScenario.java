@@ -757,7 +757,7 @@ public class BattleScenario extends Scenario {
         int all = atacante.getAtaques().size();
         int choice = 0;
         if (all > 1)
-            choice = ThreadLocalRandom.current().nextInt(0, all);
+            choice = ThreadLocalRandom.current().nextInt(0, all - 1);
         Ataque a = atacante.getAtaques().get(choice);
         String tipo = a.getClasse();
         if (verificarAtaque(atacante, a, vez)) {
@@ -789,7 +789,7 @@ public class BattleScenario extends Scenario {
         int all = atacante.getAtaques().size();
         int choice = 0;
         if (all > 1)
-            choice = ThreadLocalRandom.current().nextInt(0, all);
+            choice = ThreadLocalRandom.current().nextInt(0, all - 1);
         Ataque a = atacante.getAtaques().get(choice);
         String tipo = a.getClasse();
         if (verificarAtaque(atacante, a, vez)) {
@@ -807,12 +807,13 @@ public class BattleScenario extends Scenario {
     }
 
     private boolean verificarAtaque(Pokemon atacante, Ataque a, Jogador vez) {
-        if (a.getPpAtual() == 0.0) {
+        if (a.getPpAtual() < 1.0) {
             if (atacante.getAtaques().size() == 1) {
                 if (vez.getPokemons().size() == 1) {
                     return false;
                 } else {
                     if (!verificaFainted(vez.getPokemons())) {
+                        vez.getPokemons().get(0).setStatus(Status.FAINTED);
                         Collections.rotate(vez.getPokemons(), vez.getPokemons().size() - 1);
                         return true;
                     } else {
@@ -863,12 +864,25 @@ public class BattleScenario extends Scenario {
         String ans = " ";
         if (vez.isMaquina()) {
             int all = atacante.getAtaques().size();
-            int choice = ThreadLocalRandom.current().nextInt(0, all);
+            int choice = 0;
+            if (all > 1)
+                choice = ThreadLocalRandom.current().nextInt(0, all - 1);
             Ataque a = atacante.getAtaques().get(choice);
-            try {
-                ans = executaAtaque(a, a.getClasse(), atacante, defensor, vez, proximo);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            String tipo = a.getClasse();
+            if (verificarAtaque(atacante, a, vez)) {
+                try {
+                    taLog.appendText(executaAtaque(a, tipo, atacante, defensor, vez, proximo));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                mostraInfo();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                gameOver(proximo.getNome() + " Ganhou!\nO Pokemon " + atacante.getEspecie().getNome() + " Do Time " + vez.getNome() + " Não Tem Mais Ataques!");
             }
         } else {
             if (vez.getAcao() != null) {
