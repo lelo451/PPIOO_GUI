@@ -19,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -397,47 +398,82 @@ public class BattleScenario extends Scenario {
 
     private void showPokemons(Jogador jogador, int player) {
         int size = jogador.getPokemons().size();
+        ColorAdjust desaturate = new ColorAdjust();
+        desaturate.setSaturation(-1);
         for (int i = 0; i < size; i++) {
             Image image = new Image(padronizaValor(jogador.getPokemons().get(i).getEspecie().getId()));
             switch (i + 1) {
                 case 1:
-                    if (player == 1)
+                    if (player == 1) {
                         poke11.setImage(image);
-                    else
+                        setarGray(jogador.getPokemons().get(i), poke11, desaturate);
+                    } else {
                         poke21.setImage(image);
+                        setarGray(jogador.getPokemons().get(i), poke21, desaturate);
+                    }
                     break;
                 case 2:
-                    if (player == 1)
+                    if (player == 1) {
                         poke12.setImage(image);
-                    else
+                        setarGray(jogador.getPokemons().get(i), poke12, desaturate);
+                    } else {
                         poke22.setImage(image);
+                        setarGray(jogador.getPokemons().get(i), poke22, desaturate);
+                    }
                     break;
                 case 3:
-                    if (player == 1)
+                    if (player == 1) {
                         poke13.setImage(image);
-                    else
+                        setarGray(jogador.getPokemons().get(i), poke13, desaturate);
+                    } else {
                         poke23.setImage(image);
+                        setarGray(jogador.getPokemons().get(i), poke23, desaturate);
+                    }
                     break;
                 case 4:
-                    if (player == 1)
+                    if (player == 1) {
                         poke14.setImage(image);
-                    else
+                        setarGray(jogador.getPokemons().get(i), poke14, desaturate);
+                    } else {
                         poke24.setImage(image);
+                        setarGray(jogador.getPokemons().get(i), poke24, desaturate);
+                    }
                     break;
                 case 5:
-                    if (player == 1)
+                    if (player == 1) {
                         poke15.setImage(image);
-                    else
+                        setarGray(jogador.getPokemons().get(i), poke15, desaturate);
+                    } else {
                         poke25.setImage(image);
+                        setarGray(jogador.getPokemons().get(i), poke25, desaturate);
+                    }
                     break;
                 case 6:
-                    if (player == 1)
+                    if (player == 1) {
                         poke16.setImage(image);
-                    else
+                        setarGray(jogador.getPokemons().get(i), poke16, desaturate);
+                    } else {
                         poke26.setImage(image);
+                        setarGray(jogador.getPokemons().get(i), poke26, desaturate);
+                    }
                     break;
             }
         }
+    }
+
+    private void setarGray(Pokemon pokemon, ImageView imageView, ColorAdjust efect) {
+        if(isFainted(pokemon)) {
+            imageView.setEffect(efect);
+        } else {
+            imageView.setEffect(null);
+        }
+    }
+
+    private boolean isFainted(Pokemon pokemon) {
+        if(pokemon.getStatus().equals(Status.FAINTED))
+            return true;
+        else
+            return false;
     }
 
     private String padronizaValor(Integer img) {
