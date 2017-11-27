@@ -305,6 +305,7 @@ public class BattleScenario extends Scenario {
             alert.setHeaderText(null);
             alert.setContentText(s + "\nAperte o 'X' No Canto Superior\nDireito Para Encerar O Jogo!");
             alert.showAndWait();
+            apActionJogador.setDisable(true);
         })).start();
     }
 
