@@ -297,7 +297,7 @@ public class BattleScenario extends Scenario {
         taLog.appendText("Game Over!\n");
         new Thread(() -> Platform.runLater(() -> {
             audio.stop();
-            Media sound = new Media(Paths.get("out/production/Pokemon_GUI/end.mp3").toUri().toString());
+            Media sound = new Media(Paths.get("end.mp3").toUri().toString());
             AudioClip mediaPlayer = new AudioClip(sound.getSource());
             mediaPlayer.setCycleCount(AudioClip.INDEFINITE);
             mediaPlayer.play();

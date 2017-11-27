@@ -133,7 +133,7 @@ public class TimeScenario extends Scenario {
         alert.showAndWait();
         if(quant >= 2) {
             audio.stop();
-            Media sound = new Media(Paths.get("out/production/Pokemon_GUI/battle.mp3").toUri().toString());
+            Media sound = new Media(Paths.get("battle.mp3").toUri().toString());
             AudioClip mediaPlayer = new AudioClip(sound.getSource());
             mediaPlayer.setCycleCount(AudioClip.INDEFINITE);
             mediaPlayer.play();
