@@ -146,6 +146,7 @@ public class InicialScenario extends Scenario {
             }
             for (Especie ep : eps) {
                 int ataques = ThreadLocalRandom.current().nextInt(1, 4);
+                atk = new ArrayList<>();
                 for (int j = 1; j <= ataques; j++) {
                     int ataque = ThreadLocalRandom.current().nextInt(1, 165);
                     List<String> atq = b.getData(ataque, false);

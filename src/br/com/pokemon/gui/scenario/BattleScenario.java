@@ -182,10 +182,9 @@ public class BattleScenario extends Scenario {
         taLog.setEditable(false);
         apChange.setDisable(true);
         apAtack.setDisable(true);
+        lbJogadorVez.setVisible(false);
         mostraInfo();
-        taLog.setOnInputMethodTextChanged(e -> {
-            taLog.setScrollTop(Double.MAX_VALUE);
-        });
+        taLog.setOnInputMethodTextChanged(e -> taLog.setScrollTop(Double.MAX_VALUE));
         taLog.setWrapText(true);
         taLog.setPrefRowCount(1000);
         taLog.setPrefColumnCount(1000);
@@ -545,7 +544,7 @@ public class BattleScenario extends Scenario {
             else
                 executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
         } else {
-            if (jogadores.get(0).isMaquina()) {
+            if (jogadores.get(vez).isMaquina()) {
                 executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
             } else {
                 executaAcaoHumano(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera), false, false);
@@ -625,7 +624,7 @@ public class BattleScenario extends Scenario {
             apAtack.setDisable(false);
             cbAtaque.setPromptText("Selecione Um Ataque");
             cbAtaque.getItems().clear();
-            for (int i = 0; i < vez.getPokemons().size(); i++) {
+            for (int i = 0; i < atacante.getAtaques().size(); i++) {
                 cbAtaque.getItems().add(new Label((i + 1) + "- " + atacante.getAtaques().get(i).getNome().replace("_", "") + " - " + atacante.getAtaques().get(i).getPpAtual() + " Vezes Restantes!"));
             }
             btAtaque.setOnAction(e -> {
@@ -879,6 +878,7 @@ public class BattleScenario extends Scenario {
             case 1:
                 pTime1.setDisable(false);
                 pTime1.setStyle("-fx-border-color: red; -fx-border-width: 3");
+                lbJogadorVez.setText(jogadores.get(0).getNome());
                 pTime2.setDisable(true);
                 pTime2.setStyle("-fx-border-color: none");
                 break;
@@ -887,6 +887,7 @@ public class BattleScenario extends Scenario {
                 pTime1.setStyle("-fx-border-color: none");
                 pTime2.setDisable(false);
                 pTime2.setStyle("-fx-border-color: red; -fx-border-width: 3");
+                lbJogadorVez.setText(jogadores.get(1).getNome());
                 break;
         }
     }
