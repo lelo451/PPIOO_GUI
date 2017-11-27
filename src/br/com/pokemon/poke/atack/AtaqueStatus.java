@@ -45,8 +45,8 @@ public class AtaqueStatus extends Ataque {
                 }
                 ans = mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa);
             } else {
-                System.out.println("O ataque " + ataque + " falhou!");
-                ans = "O ataque " + ataque + " falhou!\n";
+                System.out.println("O ataque " + ataque.getNome() + " falhou!");
+                ans = "O ataque " + ataque.getNome() + " falhou!\n";
             }
         }
         return ans;

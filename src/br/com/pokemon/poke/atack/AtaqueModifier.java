@@ -81,8 +81,8 @@ public class AtaqueModifier extends Ataque {
                 double dano = calculoDano(ataque, atacante, enemy,false, true);
                 ans = mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa);
             } else {
-                System.out.println("O ataque " + ataque + " falhou!");
-                ans = "O ataque " + ataque + " falhou!\n";
+                System.out.println("O ataque " + ataque.getNome() + " falhou!");
+                ans = "O ataque " + ataque.getNome() + " falhou!\n";
             }
         }
         return ans;

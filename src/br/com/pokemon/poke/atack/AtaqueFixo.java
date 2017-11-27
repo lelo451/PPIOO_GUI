@@ -33,8 +33,8 @@ public class AtaqueFixo extends Ataque {
                 }
                 ans = mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa);
             } else {
-                System.out.println("O ataque " + ataque + " falhou!");
-                ans = "O ataque " + ataque + " falhou!";
+                System.out.println("O ataque " + ataque.getNome() + " falhou!");
+                ans = "O ataque " + ataque.getNome() + " falhou!";
             }
         }
         return ans;

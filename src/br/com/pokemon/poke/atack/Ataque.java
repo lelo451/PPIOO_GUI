@@ -118,7 +118,7 @@ public abstract class Ataque {
         if(atacante.isConfusion()) {
             if(new Random().nextInt(100) < 50) {
                 atacante.setHpAtual(atacante.getHpAtual() - dano);
-                System.out.printf("%s do Time %s Causou %.2f Nele Mesmo Devido ao Status CONFUSION", atacante.getEspecie().getNome(), timeAtaque, dano, enemy.getEspecie().getNome());
+                System.out.printf("%s do Time %s Causou %.2f Nele Mesmo Devido ao Status CONFUSION\n", atacante.getEspecie().getNome(), timeAtaque, dano, enemy.getEspecie().getNome());
                 ans = atacante.getEspecie().getNome() + " Do Time " + timeAtaque + " Causou " + df.format(dano) + " Nele Mesmo Devido ao Status CONFUSION\n";
             } else {
                 enemy.setHpAtual(enemy.getHpAtual() - dano);

@@ -52,8 +52,8 @@ public class AtaqueHP extends Ataque {
                     }
                 }
             } else {
-                System.out.println("O ataque " + ataque + " falhou!");
-                ans.append("O ataque ").append(ataque).append(" falhou!\n");
+                System.out.println("O ataque " + ataque.getNome() + " falhou!");
+                ans.append("O ataque ").append(ataque.getNome()).append(" falhou!\n");
             }
         }
         return ans.toString();
