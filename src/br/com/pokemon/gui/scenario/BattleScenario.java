@@ -24,9 +24,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
@@ -160,10 +163,12 @@ public class BattleScenario extends Scenario {
     private Button btTurno;
 
     private List<Jogador> jogadores;
+    private AudioClip audio;
 
-    public BattleScenario(List<Jogador> jogadores) {
+    public BattleScenario(List<Jogador> jogadores, AudioClip audio) {
         super("fxml/battlev2.fxml");
         this.jogadores = jogadores;
+        this.audio = audio;
     }
 
     public void onConfigStage(Stage stage) {
@@ -203,13 +208,11 @@ public class BattleScenario extends Scenario {
     };
 
     private void mostraInfo() {
-        new Thread(() -> {
-            Platform.runLater(() -> {
-                        showInfo(1);
-                        showInfo(2);
-                    }
-            );
-        }).start();
+        new Thread(() -> Platform.runLater(() -> {
+                    showInfo(1);
+                    showInfo(2);
+                }
+        )).start();
     }
 
     private void verificaJogadores() throws FileNotFoundException {
@@ -292,15 +295,18 @@ public class BattleScenario extends Scenario {
 
     private void gameOver(String s) {
         taLog.appendText("Game Over!\n");
-        new Thread(() -> {
-            Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Game Over!");
-                alert.setHeaderText(null);
-                alert.setContentText(s + "\nAperte o 'X' No Canto Superior\nDireito Para Encerar O Jogo!");
-                alert.showAndWait();
-            });
-        }).start();
+        new Thread(() -> Platform.runLater(() -> {
+            audio.stop();
+            Media sound = new Media(Paths.get("out/production/Pokemon_GUI/end.mp3").toUri().toString());
+            AudioClip mediaPlayer = new AudioClip(sound.getSource());
+            mediaPlayer.setCycleCount(AudioClip.INDEFINITE);
+            mediaPlayer.play();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game Over!");
+            alert.setHeaderText(null);
+            alert.setContentText(s + "\nAperte o 'X' No Canto Superior\nDireito Para Encerar O Jogo!");
+            alert.showAndWait();
+        })).start();
     }
 
     private boolean verificaFainted(List<Pokemon> pokemons) {
@@ -508,15 +514,13 @@ public class BattleScenario extends Scenario {
         }
         if (jog1.getAcao() != null && jog2.getAcao() != null) {
             apAcao.setDisable(true);
-            new Thread(() -> {
-                Platform.runLater(() -> {
-                    try {
-                        executarAcoes();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }).start();
+            new Thread(() -> Platform.runLater(() -> {
+                try {
+                    executarAcoes();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            })).start();
         }
     }
 

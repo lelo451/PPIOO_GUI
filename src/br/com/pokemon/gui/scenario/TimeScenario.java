@@ -27,8 +27,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
 import javafx.stage.Stage;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,12 +86,14 @@ public class TimeScenario extends Scenario {
     private String name;
     private String tipoJogador;
     private int quant;
+    private AudioClip audio;
 
-    public TimeScenario(List<Jogador> jogadores, int quant, String tipoJogador) {
+    public TimeScenario(List<Jogador> jogadores, int quant, String tipoJogador, AudioClip audio) {
         super("fxml/time.fxml");
         this.jogadores = jogadores;
         this.quant = quant;
         this.tipoJogador = tipoJogador;
+        this.audio = audio;
     }
 
     @Override
@@ -127,11 +132,16 @@ public class TimeScenario extends Scenario {
         alert.setContentText("Time " + name + " Criado Com Sucesso!");
         alert.showAndWait();
         if(quant >= 2) {
-            Scenario battleScenario = new BattleScenario(jogadores);
+            audio.stop();
+            Media sound = new Media(Paths.get("out/production/Pokemon_GUI/battle.mp3").toUri().toString());
+            AudioClip mediaPlayer = new AudioClip(sound.getSource());
+            mediaPlayer.setCycleCount(AudioClip.INDEFINITE);
+            mediaPlayer.play();
+            Scenario battleScenario = new BattleScenario(jogadores, mediaPlayer);
             Spawner.startScenario(battleScenario, null);
             finish();
         } else {
-            Scenario startScenario = new InicialScenario(jogadores, quant);
+            Scenario startScenario = new InicialScenario(jogadores, quant, audio);
             Spawner.startScenario(startScenario, null);
             finish();
         }

@@ -24,12 +24,11 @@ public class Main extends Application {
         int quant = 0;
         List<Jogador> jogadores = new ArrayList<>();
         Inicializacoes.carregar_tabelas();
-        Scenario startScenario = new InicialScenario(jogadores, quant);
-        Spawner.startScenario(startScenario, null);
-        String musicPath = "out/production/Pokemon_GUI/start.mp3";
-        File soundFile = new File(musicPath);
-        Media sound = new Media(Paths.get(musicPath).toUri().toString());
+        Media sound = new Media(Paths.get("out/production/Pokemon_GUI/start.mp3").toUri().toString());
         AudioClip mediaPlayer = new AudioClip(sound.getSource());
+        mediaPlayer.setCycleCount(AudioClip.INDEFINITE);
         mediaPlayer.play();
+        Scenario startScenario = new InicialScenario(jogadores, quant, mediaPlayer);
+        Spawner.startScenario(startScenario, null);
     }
 }

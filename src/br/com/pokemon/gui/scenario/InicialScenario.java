@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -31,11 +32,13 @@ public class InicialScenario extends Scenario {
     @FXML private ImageView logo;
     private List<Jogador> jogadores;
     private int quant;
+    private AudioClip audio;
 
-    public InicialScenario(List<Jogador> jogadores, int quant) {
+    public InicialScenario(List<Jogador> jogadores, int quant, AudioClip audio) {
         super("fxml/main_menu.fxml");
         this.jogadores = jogadores;
         this.quant = quant;
+        this.audio = audio;
     }
 
     public void onConfigScene(Scene scene) {
@@ -64,13 +67,13 @@ public class InicialScenario extends Scenario {
     }
 
     private void HandleHumanAction(ActionEvent event) {
-        Scenario teamName = new TimeScenario(jogadores, quant, "H");
+        Scenario teamName = new TimeScenario(jogadores, quant, "H", audio);
         Spawner.startScenario(teamName, null);
         finish();
     }
 
     private void HandleComputerAction(ActionEvent event) {
-        Scenario teamName = new TimeScenario(jogadores, quant, "C");
+        Scenario teamName = new TimeScenario(jogadores, quant, "C", audio);
         Spawner.startScenario(teamName, null);
         finish();
     }
