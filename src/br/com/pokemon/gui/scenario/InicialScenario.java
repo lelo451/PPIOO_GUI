@@ -1,6 +1,5 @@
 package br.com.pokemon.gui.scenario;
 
-import br.com.pokemon.gui.FXScenario.FeedbackScenario;
 import br.com.pokemon.gui.FXScenario.NodeCustomizer;
 import br.com.pokemon.gui.FXScenario.Scenario;
 import br.com.pokemon.gui.FXScenario.Spawner;
@@ -67,7 +66,6 @@ public class InicialScenario extends Scenario {
     private void HandleHumanAction(ActionEvent event) {
         Scenario teamName = new TimeScenario(jogadores, quant, "H");
         Spawner.startScenario(teamName, null);
-        //Spawner.startFeedbackScenario(teamName, 0, this, (requestCode, resultCode, data) -> {});
         finish();
     }
 

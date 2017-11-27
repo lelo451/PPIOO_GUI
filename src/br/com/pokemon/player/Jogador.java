@@ -208,6 +208,12 @@ public abstract class Jogador {
     private void escolha(int choice, Pokemon pk, Pokemon enemy, Jogador jogador, Jogador proximo) throws FileNotFoundException {
         if (pk.getAtaques().get(choice).getPpAtual() < 1) {
             System.out.println("Não é possivel utilizar o ataque: " + pk.getAtaques().get(choice).getNome() + "!");
+            if(pk.getAtaques().size() < 2 && enemy.getAtaques().size() < 2) {
+                if(pk.getAtaques().get(0).getPpAtual() == 0 && enemy.getAtaques().get(0).getPpAtual() == 0) {
+                    System.out.println("Game Over!");
+                    System.exit(0);
+                }
+            }
             usarAtaque(jogador, pk, enemy, proximo);
         }
     }

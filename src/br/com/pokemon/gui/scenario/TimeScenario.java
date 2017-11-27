@@ -79,7 +79,7 @@ public class TimeScenario extends Scenario {
     private List<Jogador> jogadores;
     private List<Especie> especies = new ArrayList<>();
     private List<Pokemon> pokemons = new ArrayList<>();
-    private List<Ataque> ataques = new ArrayList<>();
+    private List<Ataque> ataques;
     private String name;
     private String tipoJogador;
     private int quant;
@@ -103,6 +103,8 @@ public class TimeScenario extends Scenario {
         segundoPlano();
         tfName.setPromptText("Nome Do Jogador Do Time " + (quant + 1));
         pokePreview1.setImage(null);
+        tvEspecie.setPlaceholder(new Label("Carregando Pokemons..."));
+        tvAtaque.setPlaceholder(new Label("Carregando Ataques..."));
         btQtdPokemon.setOnAction(this::handleQtdPokemonAction);
         tfName.setOnKeyPressed(this::handleNameFieldAction);
         btName.setOnAction(this::handleNameAction);
@@ -352,6 +354,7 @@ public class TimeScenario extends Scenario {
                 pokePreview6.setVisible(true);
                 break;
         }
+        ataques = new ArrayList<>();
         btQtdAtaque.setOnAction(e -> {
             cbQtdAtaque.setDisable(true);
             btQtdAtaque.setDisable(true);

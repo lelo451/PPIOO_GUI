@@ -18,8 +18,8 @@ public class AtaqueFixo extends Ataque {
     public String Efeito(Ataque ataque, Pokemon atacante, Pokemon enemy, String timeAtaque, String timeDefesa) {
         String ans = " ";
         if (ataque.getPpAtual() < 1) {
-            System.out.println("Não é possivel utilizar o ataque: " + ataque + "!");
-            ans = "Não é possivel utilizar o ataque: " + ataque + "!\n";
+            System.out.println("Não é possivel utilizar o ataque: " + ataque.getNome() + "!");
+            ans = "Não é possivel utilizar o ataque: " + ataque.getNome() + "!\n";
         } else {
             ataque.setPpAtual(ataque.getPpAtual() - 1);
             boolean acerto = calculoAcerto(ataque.getAccuracy(), atacante.getModifierAtk(), enemy.getModifierEvasion(), atacante);

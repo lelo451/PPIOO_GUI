@@ -22,8 +22,8 @@ public class AtaqueHP extends Ataque {
         DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
         StringBuilder ans = new StringBuilder();
         if (ataque.getPpAtual() < 1) {
-            System.out.println("Não é possivel utilizar o ataque: " + ataque + "!");
-            ans.append("Não é possivel utilizar o ataque: ").append(ataque).append("!\n");
+            System.out.println("Não é possivel utilizar o ataque: " + ataque.getNome() + "!");
+            ans.append("Não é possivel utilizar o ataque: ").append(ataque.getNome()).append("!\n");
         } else {
             ataque.setPpAtual(ataque.getPpAtual() - 1);
             boolean acerto = calculoAcerto(ataque.getAccuracy(), atacante.getModifierAtk(), enemy.getModifierEvasion(), atacante);
