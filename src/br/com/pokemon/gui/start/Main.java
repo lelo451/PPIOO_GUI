@@ -24,7 +24,7 @@ public class Main extends Application {
         int quant = 0;
         List<Jogador> jogadores = new ArrayList<>();
         Inicializacoes.carregar_tabelas();
-        Media sound = new Media(Paths.get("out/production/Pokemon_GUI/start.mp3").toUri().toString());
+        Media sound = new Media(Paths.get("start.mp3").toUri().toString());
         AudioClip mediaPlayer = new AudioClip(sound.getSource());
         mediaPlayer.setCycleCount(AudioClip.INDEFINITE);
         mediaPlayer.play();
