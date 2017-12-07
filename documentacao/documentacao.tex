@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+\usepackage{sbc-template}
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{forest}
+\usepackage{indentfirst}
+
+\definecolor{folderbg}{RGB}{124,166,198}
+\definecolor{folderborder}{RGB}{110,144,169}
+
+\def\Size{4pt}
+\tikzset{
+	folder/.pic={
+		\filldraw[draw=folderborder,top color=folderbg!50,bottom color=folderbg]
+		(-1.05*\Size,0.2\Size+5pt) rectangle ++(.75*\Size,-0.2\Size-5pt);  
+		\filldraw[draw=folderborder,top color=folderbg!50,bottom color=folderbg]
+		(-1.15*\Size,-\Size) rectangle (1.15*\Size,\Size);
+	},
+	file/.pic={%
+		\filldraw [draw=folderborder, top color=folderbg!5, bottom color=folderbg!10] (-\Size,.4*\Size+5pt) coordinate (a) |- (\Size,-1.2*\Size) coordinate (b) -- ++(0,1.6*\Size) coordinate (c) -- ++(-5pt,5pt) coordinate (d) -- cycle (d) |- (c) ;
+	},
+}
+
+\title{Manual de Informações e Instruções Pokemon v1.0}
+
+\author{Adriano Henrique Rezende, Leonardo Deganello de Souza\inst{1}}
+
+\address{RA70114, RA98995}
+
+\begin{document}
+
+\maketitle
+
+\section{Requisitos}
+\begin{enumerate}
+	\item Java 9 - setado como default
+	\item Terminal
+	\item Banco de Dados Mysql com usuário root sem senha
+	\item Arquivos 'ataques.csv', 'Pokemons.csv', 'multiplicadoresAtaque.csv' e 'mysql.jar' na raiz do projeto
+	\item pasta GUI para a saida dos arquivos compilados
+	\item arquivo run.sh na raiz do projeto
+\end{enumerate}
+
+\section{Compilando e executando}
+Para compilar e executar basta rodar o arquivo run.sh
+
+\section{Orientação a Objetos}
+\section{Encapsulamento}
+
+Encapsulamento serve para controlar o acesso aos atributos e métodos de uma classe. Isso é feito atraves da classe Pokemon, em que seus atributos são declarados como private e para se ter acesso a algum atributo é necessario que se use o get ou setter respectivo do atributo caso contrário não será possível obter o dado armazenado naquele atributo para aquela instância.
+
+\section{Herança}
+
+Herança é um mecanismo da Orientação a Objeto que permite criar novas classes a partir de classes já existentes, aproveitando-se das características existentes na classe a ser estentida. Isso é feito atraves da classe abstrata Ataque, em que ela é usada como base para cada tipo de ataque, tendo como o único metodo abstrado o Efeito, sendo esse implementado em cada classe que extende a class Ataque.
+
+\section{Polimorfismo}
+
+Polimorfismo é o princípio pelo qual duas ou mais classes derivadas de uma mesma superclasse podem invocar métodos que têm a mesma identificação, assinatura, mas comportamentos distintos, especializados para cada classe derivada, usando para tanto uma referência a um objeto do tipo da superclasse. Isso é feito atraves da classe Ataque e suas subclasses em que uma instância da classe ataque pode ser usada para referenciar o metodo efeito implementado em cada uma de suas classes filhas.
+
+\section{Decisões de Projeto}
+\begin{center}
+	\textbf{Classe de Controle do Projeto}
+\end{center}
+
+As classes que são responsáveis por fazer o controle do fluxo do programa são: a classe InitialScenario responsavel por inicializar a interface gráfica e possibilitar a escolha de que tipo de jogador vai controlar cada time. A classe TimeScenario responsável pela criação do time com os respectivos pokemons e ataques. E por último a classe BattleScenario responsável pela execução da batalha em si.
+
+\begin{center}
+	\textbf{Interação com o Usuário}
+\end{center}
+
+A interação com usuário ocorre através da interface gráfica criada utilizando JavaFx.
+
+\begin{center}
+	\textbf{Tratamento de Exceções}
+\end{center}
+
+Foram feitas tratamento de exeções com relação a conexão do banco de dados para caso a conexão não seja possivel ou o usuário/senha não esteja correto ou não seja encontrada a biblioteca para coneção. E além disso foram feitos tratamentos de exeções nas ações que o usuário pode interagir com a interface e por algum motivo gerar um erro é sempre exibido uma mensagem para o usuário informando que algo que ele realizou não foi uma ação válida.
+
+\begin{center}
+	\textbf{Organização do Programa}
+\end{center}
+
+O programa foi organizado em 4 pacotes: gui, database, player e poke. Dentre esses, o pacote gui é o principal e responsável pela execução da interface gráfica, sendo ele subdividido em outros pacotes para o controle do fluxo da interface gráfica.
+
+
+O pacote database, como o nome diz, é responsável pela implementação da coneção com banco de dados além de realizar algumas consultas.
+
+
+O pacote player é responsável pela implementação do jogador.
+
+
+E por último, o modulo poke é responsável pela implementação dos pokemons, especies e os ataques disponiveis no programa.
+
+\end{document}

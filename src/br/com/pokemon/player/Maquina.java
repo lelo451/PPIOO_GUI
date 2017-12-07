@@ -14,11 +14,6 @@ public class Maquina extends Jogador {
     }
 
     @Override
-    public int escolherComando(Jogador jogador) {
-        return 1;
-    }
-
-    @Override
     public boolean isMaquina() {
         return true;
     }
