@@ -48,7 +48,7 @@ public abstract class Ataque {
      */
     boolean calculoCritico(double spd) {
         Random random = new Random();
-        if(random.nextInt(100) < spd / 512) {
+        if(random.nextInt(100) < ((spd / 512) * 100)) {
             System.out.println("Ataque critico!");
             return true;
         } else {
@@ -175,9 +175,6 @@ public abstract class Ataque {
         }
         if(critico) {
             l *= 2;
-        }
-        if(ataque.getTipo().equals(Status.BURN)) {
-            a /= 2;
         }
         if(atacante.getStatus().equals(Status.BURN)) {
             a /= 2;

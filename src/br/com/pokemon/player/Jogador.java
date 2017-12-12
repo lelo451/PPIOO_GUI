@@ -17,8 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public abstract class Jogador {
 
-    static Scanner sc = new Scanner(System.in);
-
     private String nome;
     private Acao acao;
     private List<Pokemon> pokemons = new ArrayList<>();

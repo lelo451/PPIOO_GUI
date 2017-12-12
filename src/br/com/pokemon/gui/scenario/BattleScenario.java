@@ -576,10 +576,7 @@ public class BattleScenario extends Scenario {
         }
         removerDestaque();
         if (jogadores.get(0).isMaquina() && jogadores.get(1).isMaquina()) {
-            if (vez == 0)
-                executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
-            else
-                executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
+            executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
         } else {
             if (jogadores.get(vez).isMaquina()) {
                 executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));

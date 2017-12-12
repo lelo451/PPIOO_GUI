@@ -10,8 +10,6 @@ import java.util.Scanner;
  */
 public class Humano extends Jogador {
 
-    static Scanner sc = new Scanner(System.in);
-
     public Humano(String nome, List<Pokemon> pokemons) {
         super(nome, pokemons);
     }
