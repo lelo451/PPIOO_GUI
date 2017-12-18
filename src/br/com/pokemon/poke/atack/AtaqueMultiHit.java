@@ -33,6 +33,7 @@ public class AtaqueMultiHit extends Ataque {
                 for(int i = 0; i < vezes; i++) {
                     dano += calculoDano(ataque, atacante, enemy, critico, false);
                 }
+                System.out.println("Multi Hit: " + vezes);
                 ans = mensagemDeDano(atacante, enemy, dano, timeAtaque, timeDefesa);
             } else {
                 System.out.println("O ataque " + ataque.getNome() + " falhou!");

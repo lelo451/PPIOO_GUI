@@ -275,6 +275,11 @@ public class BattleScenario extends Scenario {
     private void changePokemons() {
         Jogador jog1 = jogadores.get(0);
         Jogador jog2 = jogadores.get(1);
+        Pokemon poke1 = jog1.getPokemons().get(0);
+        Pokemon poke2 = jog2.getPokemons().get(0);
+        int rand = ThreadLocalRandom.current().nextInt(0, 100);
+        checaStatus(poke1, rand);
+        checaStatus(poke2, rand);
         if (jog1.getPokemons().size() > 1) {
             if (jog1.getPokemons().get(0).getStatus().equals(Status.FAINTED)) {
                 if (!verificaFainted(jog1.getPokemons())) {
@@ -289,6 +294,32 @@ public class BattleScenario extends Scenario {
                     Collections.rotate(jog2.getPokemons(), jog2.getPokemons().size() - 1);
                     taLog.appendText("O Pokemon " + jog2.getPokemons().get(jog2.getPokemons().size() - 1).getEspecie().getNome() + " Foi Trocado Por " + jog2.getPokemons().get(0).getEspecie().getNome() + " Do Time " + jog1.getNome() + "!\n");
                 }
+            }
+        }
+    }
+
+    private void checaStatus(Pokemon poke, int rand) {
+        switch (poke.getStatus()) {
+            case FROZEN:
+                if (rand < 10) {
+                    poke.setStatus(Status.OK);
+                }
+                break;
+            case SLEEP:
+                if (rand < 20) {
+                    poke.setStatus(Status.OK);
+                }
+                break;
+            case POISON:
+            case BURN:
+                poke.setHpAtual((poke.getHpAtual() - (poke.getHpAtual() * 0.0625)) <= 0 ? 0 : poke.getHpAtual() - (poke.getHpAtual() * 0.0625));
+        }
+        if(poke.isFlinch()) {
+            poke.setFlinch(false);
+        }
+        if(poke.isConfusion()) {
+            if(rand < 20) {
+                poke.setConfusion(false);
             }
         }
     }

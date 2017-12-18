@@ -69,12 +69,12 @@ public abstract class Ataque {
             System.out.println("Ataque do " + atacante.getEspecie().getNome() + " Cancelado Devido ao Status " + (atacante.isFlinch() ? "FLINCH" : atacante.getStatus()));
             return false;
         } else {
-            int modifierAtacante = getModifier(modifier_accuracy);
-            int modifierEnemy = getModifier(modifier_evasion);
-            int prob = accuracy * getModifier(modifierAtacante / modifierEnemy);
+            double modifierAtacante = getModifier(modifier_accuracy) * 0.01;
+            double modifierEnemy = getModifier(modifier_evasion) * 0.01;
+            double prob = accuracy * (modifierAtacante / modifierEnemy);
             if(atacante.getStatus().equals(Status.PARALYSIS)) {
                 System.out.println("Probabilidade de Acerto do " + atacante.getEspecie().getNome() + " Reduzida em 25% Devido ao Status PARALYSIS");
-                prob -= 25;
+                prob *= 0.75;
             }
             Random random = new Random();
             return (random.nextInt(100) < prob);
@@ -117,7 +117,12 @@ public abstract class Ataque {
         String ans = " ";
         if(atacante.isConfusion()) {
             if(new Random().nextInt(100) < 50) {
-                atacante.setHpAtual(atacante.getHpAtual() - dano);
+                if(atacante.getHpAtual() - dano <= 0) {
+                    atacante.setHpAtual(0);
+                    atacante.setStatus(Status.FAINTED);
+                } else {
+                    atacante.setHpAtual(atacante.getHpAtual() - dano);
+                }
                 System.out.printf("%s do Time %s Causou %.2f Nele Mesmo Devido ao Status CONFUSION\n", atacante.getEspecie().getNome(), timeAtaque, dano, enemy.getEspecie().getNome());
                 ans = atacante.getEspecie().getNome() + " Do Time " + timeAtaque + " Causou " + df.format(dano) + " Nele Mesmo Devido ao Status CONFUSION\n";
             } else {
