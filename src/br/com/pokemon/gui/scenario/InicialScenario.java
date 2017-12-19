@@ -221,8 +221,8 @@ public class InicialScenario extends Scenario {
                 atual = 2 + (pks.size() * 6);
                 int controlador2 = Integer.parseInt(all[atual]);
                 int quantPoke2 = Integer.parseInt(all[1 + atual]), quant2 = 0;
-                pks = new ArrayList<>();
                 atk = new ArrayList<>();
+                pks = new ArrayList<>();
                 createJogadores(quant2, quantPoke2, controlador2, all, atk, pks, atual);
                 audio.stop();
                 Media sound = new Media(Paths.get("battle.mp3").toUri().toString());
@@ -242,6 +242,7 @@ public class InicialScenario extends Scenario {
             Especie e = new Especie(idPoke1);
             int lvl = Integer.parseInt(all[((3 + atual) + (6 * quant))]);
             int tmp = (4 + atual) + (6 * quant);
+            atk = new ArrayList<>();
             for (int i = tmp; i < (tmp + 4); i++) {
                 int id = Integer.parseInt(all[i]);
                 if (id != 0) {
@@ -252,9 +253,9 @@ public class InicialScenario extends Scenario {
             quant++;
         }
         if(controlador == 0) {
-            jogadores.add(new Maquina("IA-1", pks));
+            jogadores.add(new Maquina("IA-" + (quant + 1), pks));
         } else {
-            jogadores.add(new Humano("Player-1", pks));
+            jogadores.add(new Humano("Player-" + (quant + 1), pks));
         }
     }
 

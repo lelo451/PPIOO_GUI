@@ -610,6 +610,7 @@ public class BattleScenario extends Scenario {
             executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
         } else {
             if (jogadores.get(vez).isMaquina()) {
+                removerDestaque();
                 executaAcaoMaquina(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera));
             } else {
                 executaAcaoHumano(jogadores.get(vez).getPokemons().get(0), jogadores.get(espera).getPokemons().get(0), jogadores.get(vez), jogadores.get(espera), false, false);
@@ -618,6 +619,7 @@ public class BattleScenario extends Scenario {
     }
 
     private void executaAcaoHumano(Pokemon atacante, Pokemon defensor, Jogador vez, Jogador proximo, boolean isSegundo, boolean isAfterChargeAtack) {
+        destacarJogadorVez(jogadores.indexOf(vez) + 1);
         if (vez.getAcao().equals(Acao.TROCAR_POKEMON)) {
             apChange.setDisable(false);
             cbChange.setPromptText("Selecione Um Pokemon");
@@ -782,6 +784,7 @@ public class BattleScenario extends Scenario {
     }
 
     private void executaAcaoMaquina(Pokemon atacante, Pokemon defensor, Jogador vez, Jogador proximo) throws FileNotFoundException {
+        removerDestaque();
         int all = atacante.getAtaques().size();
         int choice = 0;
         if (all > 1)
@@ -814,6 +817,7 @@ public class BattleScenario extends Scenario {
     }
 
     private void executarAcaoSegundoJogadorIA(Pokemon atacante, Pokemon defensor, Jogador vez, Jogador proximo) throws FileNotFoundException {
+        removerDestaque();
         int all = atacante.getAtaques().size();
         int choice = 0;
         if (all > 1)
