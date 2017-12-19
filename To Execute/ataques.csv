@@ -1,0 +1,166 @@
+ID,Name,Type,PP,Power,Accuracy,Classe,Parâmetros
+1,Leech_Life,Bug,15,20,100,hp,dano	0.5
+2,Pin_Missile,Bug,20,14,85,multihit,2	5
+3,String_Shot,Bug,40,0,95,modifier,SPD	-1	100
+4,Twineedle,Bug,20,25,100,multihit,2	2
+5,Dragon_Rage,Dragon,10,0,100,fixo,40
+6,Thunder,Eletric,10,120,70,status,Paralysis	10
+7,Thunder_Punch,Eletric,15,75,100,status,Paralysis	10
+8,Thunder_Shock,Eletric,30,40,100,status,Paralysis	10
+9,Thunder_Wave,Eletric,20,0,100,status,Paralysis	100
+10,Thunderbolt,Eletric,15,95,100,status,Paralysis	10
+11,Counter,Fighting,20,0,100,comum,
+12,Double_Kick,Fighting,30,30,100,multihit,2	2
+13,Hi_Jump_Kick,Fighting,20,85,90,comum,
+14,Jump_Kick,Fighting,25,70,95,comum,
+15,Low_Kick,Fighting,20,50,90,status,Flinch	33
+16,Rolling_Kick,Fighting,15,60,85,status,Flinch	33
+17,Seismic_Toss,Fighting,20,0,100,fixo,lvl
+18,Submission,Fighting,25,80,80,hp,dano	-0.25
+19,Ember,Fire,25,40,100,status,Burn	10
+20,Fire_Blast,Fire,5,120,85,status,Burn	20
+21,Fire_Punch,Fire,15,75,100,status,Burn	10
+22,Fire_Spin,Fire,15,15,70,multihit,2	5
+23,Flamethrower,Fire,15,95,100,status,Burn	10
+24,Drill_Peck,Flying,20,80,100,comum,
+25,Fly,Flying,15,70,95,charge,
+26,Mirror_Move,Flying,20,0,100,comum,
+27,Peck,Flying,35,35,100,comum,
+28,Sky_Attack,Flying,5,140,90,charge,
+29,Wing_Attack,Flying,35,35,100,comum,
+30,Confuse_Ray,Ghost,10,0,100,status,Confusion	100
+31,Lick,Ghost,30,20,100,status,Paralysis	33
+32,Night_Shade,Ghost,15,0,100,fixo,lvl
+33,Absorb,Grass,20,20,100,hp,dano	0.5
+34,Leech_Seed,Grass,10,0,90,status,Poison	100
+35,Mega_Drain,Grass,10,40,100,hp,dano	0.5
+36,Petal_Dance,Grass,20,70,100,multihit,2	3
+37,Razor_Leaf,Grass,25,55,95,comum,
+38,Sleep_Powder,Grass,15,0,75,status,Sleep	100
+39,Solar_Beam,Grass,10,120,100,charge,
+40,Spore,Grass,15,0,100,status,Sleep	100
+41,Stun_Spore,Grass,30,0,75,status,Paralysis	100
+42,Vine_Whip,Grass,10,35,100,comum,
+43,Bone_Club,Ground,20,65,85,status,Flinch	33
+44,Bonemerang,Ground,10,50,90,multihit,2	2
+45,Dig,Ground,10,100,100,charge,
+46,Earthquake,Ground,10,100,100,comum,
+47,Fissure,Ground,5,0,30,status,Fainted	100
+48,Aurora_Beam,Ice,20,65,100,modifier,ATK	-1	33
+49,Blizzard,Ice,5,120,90,status,Frozen	10
+50,Haze,Ice,30,0,100,comum,
+51,Ice_Beam,Ice,10,95,100,status,Frozen	10
+52,Ice_Punch,Ice,15,75,100,status,Frozen	10
+53,Mist,Ice,30,0,100,comum,
+54,Barrage,Normal,20,15,85,multihit,2	5
+55,Bide,Normal,10,0,100,comum,
+56,Bind,Normal,20,15,75,multihit,2	5
+57,Bite,Normal,25,60,100,status,Flinch	33
+58,Body_Slam,Normal,15,85,100,status,Paralysis	33
+59,Comet_Punch,Normal,15,18,85,multihit,2	5
+60,Constrict,Normal,35,10,100,modifier,SPD	-1	33
+61,Conversion,Normal,30,0,100,comum,
+62,Cut,Normal,30,50,95,comum,
+63,Defense_Curl,Normal,40,0,100,modifier,DEF	1	100
+64,Disable,Normal,20,0,55,comum,
+65,Dizzy_Punch,Normal,10,70,100,comum,
+66,Double_Slap,Normal,10,15,85,multihit,2	5
+67,Double_Team,Normal,15,0,100,modifier,Accuracy	-1	100
+68,Double-Edge,Normal,15,100,100,hp,dano	-0.25
+69,Egg_Bomb,Normal,10,100,75,comum,
+70,Explosion,Normal,5,170,100,hp,max_hp	0
+71,Flash,Normal,20,0,70,modifier,Accuracy	-1	100
+72,Focus_Energy,Normal,30,0,100,comum,
+73,Fury_Attack,Normal,20,15,85,multihit,2	5
+74,Fury_Swipes,Normal,15,18,80,multihit,2	5
+75,Glare,Normal,30,0,75,status,Paralysis	100
+76,Growl,Normal,40,0,100,modifier,ATK	-1	100
+77,Growth,Normal,40,0,100,modifier,SPE	1	100
+78,Guillotine,Normal,5,0,30,status,Fainted	100
+79,Gust,Normal,35,40,100,comum,
+80,Harden,Normal,30,0,100,modifier,DEF	1	100
+81,Headbutt,Normal,15,70,100,status,Flinch	33
+82,Horn_Attack,Normal,25,65,100,comum,
+83,Horn_Drill,Normal,5,0,30,status,Fainted	100
+84,Hyper_Beam,Normal,5,150,90,charge,
+85,Hyper_Fang,Normal,15,80,90,status,Flinch	10
+86,Karate_Chop,Normal,25,50,100,comum,
+87,Leer,Normal,30,0,100,modifier,DEF	-1	100
+88,Lovely_Kiss,Normal,10,0,75,status,Sleep	100
+89,Mega_Kick,Normal,5,120,75,comum,
+90,Mega_Punch,Normal,20,80,85,comum,
+91,Metronome,Normal,10,0,100,comum,
+92,Mimic,Normal,10,0,100,comum,
+93,Minimize,Normal,20,0,100,modifier,Evasion	1	100
+94,Pay_Day,Normal,20,40,100,comum,
+95,Pound,Normal,35,40,100,comum,
+96,Quick_Attack,Normal,30,40,100,comum,
+97,Rage,Normal,20,20,100,multihit,2	5
+98,Razor_Wind,Normal,10,80,75,charge,
+99,Recover,Normal,20,0,100,hp,max_hp	0.5
+100,Roar,Normal,20,0,100,comum,
+101,Sand-Attack,Normal,15,0,100,modifier,Accuracy	-1	100
+102,Scratch,Normal,35,40,100,comum,
+103,Screech,Normal,40,0,85,modifier,DEF	-2	100
+104,Self-Destruct,Normal,5,130,100,hp,max_hp	0
+105,Sharpen,Normal,30,0,100,modifier,ATK	1	100
+106,Sing,Normal,15,0,55,status,Sleep	100
+107,Skull_Bash,Normal,15,100,100,charge,
+108,Slam,Normal,20,80,75,comum,
+109,Slash,Normal,20,70,100,comum,
+110,Smokescreen,Normal,20,0,100,modifier,Accuracy	-1	100
+111,Soft-Boiled,Normal,10,0,100,hp,max_hp	0.5
+112,Sonic_Boom,Normal,20,0,90,fixo,20
+113,Spike_Cannon,Normal,15,20,100,multihit,2	5
+114,Splash,Normal,40,0,100,comum,
+115,Stomp,Normal,20,65,100,status,Flinch	33
+116,Strength,Normal,15,80,100,comum,
+117,Struggle,Normal,10,50,100,hp,dano	-0.25
+118,Substitute,Normal,10,0,100,comum,
+119,Super_Fang,Normal,10,0,90,comum,
+120,Supersonic,Normal,20,0,55,status,Confusion	100
+121,Swift,Normal,20,60,100,comum,
+122,Swords_Dance,Normal,30,0,100,modifier,ATK	2	100
+123,Tackle,Normal,35,35,95,comum,
+124,Tail_Whip,Normal,30,0,100,modifier,DEF	-1	100
+125,Take_Down,Normal,20,90,85,hp,dano	-0.25
+126,Thrash,Normal,20,90,100,multihit,2	3
+127,Transform,Normal,10,0,100,comum,
+128,Tri_Attack,Normal,10,80,100,comum,
+129,Vice_Grip,Normal,30,55,100,comum,
+130,Whirlwind,Normal,20,0,85,comum,
+131,Wrap,Normal,20,15,85,multihit,2	5
+132,Acid,Poison,30,40,100,modifier,DEF	-1	33
+133,Acid_Armor,Poison,40,0,100,modifier,DEF	2	100
+134,Poison_Gas,Poison,40,0,55,status,Poison	100
+135,Poison_Powder,Poison,35,0,75,status,Poison	100
+136,Poison_Sting,Poison,35,15,100,status,Poison	20
+137,Sludge,Poison,20,65,100,status,Poison	50
+138,Smog,Poison,20,20,70,status,Poison	50
+139,Toxic,Poison,10,0,85,status,Poison	100
+140,Agility,Psychic,30,0,100,modifier,SPD	2	100
+141,Amnesia,Psychic,20,0,100,modifier,SPE	2	100
+142,Barrier,Psychic,30,0,100,modifier,DEF	2	100
+143,Confusion,Psychic,25,50,100,status,Confusion	10
+144,Dream_Eater,Psychic,15,100,100,comum,
+145,Hypnosis,Psychic,20,0,60,status,Sleep	100
+146,Kinesis,Psychic,15,0,80,modifier,Evasion	1	100
+147,Light_Screen,Psychic,30,0,100,modifier,SPE	1	100
+148,Meditate,Psychic,40,0,100,modifier,ATK	1	100
+149,Psybeam,Psychic,20,65,100,status,Confusion	10
+150,Psychic,Psychic,10,90,100,modifier,SPE	-1	33
+151,Psywave,Psychic,15,0,80,fixo,lvl
+152,Reflect,Psychic,20,0,100,modifier,DEF	1	100
+153,Rest,Psychic,10,0,100,hp,max_hp	1
+154,Teleport,Psychic,20,0,100,comum,
+155,Rock_Slide,Rock,10,75,90,comum,
+156,Rock_Throw,Rock,15,50,65,comum,
+157,Bubble,Water,30,20,100,modifier,SPD	-1	33
+158,Bubble_Beam,Water,20,65,100,modifier,SPD	-1	33
+159,Clamp,Water,10,35,75,multihit,2	5
+160,Crabhammer,Water,10,90,85,comum,
+161,Hydro_Pump,Water,5,120,80,comum,
+162,Surf,Water,15,95,100,comum,
+163,Water_Gun,Water,25,40,100,comum,
+164,Waterfall,Water,15,80,100,comum,
+165,Withdraw,Water,40,0,100,modifier,DEF	1	100
