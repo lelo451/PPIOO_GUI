@@ -11,6 +11,7 @@ import br.com.pokemon.poke.Especie;
 import br.com.pokemon.poke.Pokemon;
 import br.com.pokemon.poke.atack.*;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -19,6 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
@@ -33,30 +36,21 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class InicialScenario extends Scenario {
 
-    @FXML
-    private Pane rootPane;
-    @FXML
-    private HBox menu;
-    @FXML
-    private Button hideButton;
-    @FXML
-    private Button exitButton;
-    @FXML
-    private Button human;
-    @FXML
-    private Button IA;
-    @FXML
-    private Label startTime;
-    @FXML
-    private Label errorLabel;
-    @FXML
-    private ImageView logo;
-    @FXML
-    private JFXComboBox<Label> cbRandom1;
-    @FXML
-    private JFXComboBox<Label> cbRandom2;
-    @FXML
-    private Button btRandom;
+    @FXML private Pane rootPane;
+    @FXML private HBox menu;
+    @FXML private Button hideButton;
+    @FXML private Button exitButton;
+    @FXML private Button human;
+    @FXML private Button IA;
+    @FXML private Label startTime;
+    @FXML private Label errorLabel;
+    @FXML private ImageView logo;
+    @FXML private JFXComboBox<Label> cbRandom1;
+    @FXML private JFXComboBox<Label> cbRandom2;
+    @FXML private Button btRandom;
+    @FXML private JFXTextField tfParameter;
+    @FXML private Button btParameter;
+    @FXML private Label lbError;
 
     private List<Jogador> jogadores;
     private int quant;
@@ -95,11 +89,10 @@ public class InicialScenario extends Scenario {
         }
 
         human.setOnAction(this::HandleHumanAction);
-
         IA.setOnAction(this::HandleComputerAction);
-
         btRandom.setOnAction(this::randomize);
-
+        btParameter.setOnAction(this::handleBtParameter);
+        tfParameter.setOnKeyPressed(this::handleTfParameter);
     }
 
     public void onConfigStage(Stage stage) {
@@ -149,30 +142,7 @@ public class InicialScenario extends Scenario {
                 atk = new ArrayList<>();
                 for (int j = 1; j <= ataques; j++) {
                     int ataque = ThreadLocalRandom.current().nextInt(1, 165);
-                    List<String> atq = b.getData(ataque, false);
-                    switch (atq.get(6)) {
-                        case "charge":
-                            atk.add(new AtaqueCharge(ataque));
-                            break;
-                        case "comum":
-                            atk.add(new AtaqueComum(ataque));
-                            break;
-                        case "fixo":
-                            atk.add(new AtaqueFixo(ataque));
-                            break;
-                        case "hp":
-                            atk.add(new AtaqueHP(ataque));
-                            break;
-                        case "modifier":
-                            atk.add(new AtaqueModifier(ataque));
-                            break;
-                        case "multihit":
-                            atk.add(new AtaqueMultiHit(ataque));
-                            break;
-                        case "status":
-                            atk.add(new AtaqueStatus(ataque));
-                            break;
-                    }
+                    addAtaque(ataque, atk);
                 }
                 int lvl = ThreadLocalRandom.current().nextInt(1, 100);
                 pks.add(new Pokemon(lvl, atk, ep));
@@ -219,6 +189,109 @@ public class InicialScenario extends Scenario {
                     }
                     break;
             }
+        }
+    }
+
+    private void handleBtParameter(ActionEvent event) {
+        createTime();
+    }
+
+    private void handleTfParameter(KeyEvent event) {
+        if(event.getCode() == KeyCode.ENTER) {
+            createTime();
+        }
+    }
+
+    private void createTime() {
+        jogadores = new ArrayList<>();
+        List<Pokemon> pks = new ArrayList<>();
+        List<Ataque> atk = new ArrayList<>();
+        String parameter = tfParameter.getText();
+        if(parameter.isEmpty()) {
+            showError();
+        } else {
+            String[] all = parameter.split(" ");
+            if(all.length < 16) {
+                showError();
+            } else {
+                int controlador1 = Integer.parseInt(all[0]);
+                int quantPoke1 = Integer.parseInt(all[1]), quant = 0;
+                int atual = 0;
+                createJogadores(quant, quantPoke1, controlador1, all, atk, pks, atual);
+                atual = 2 + (pks.size() * 6);
+                int controlador2 = Integer.parseInt(all[atual]);
+                int quantPoke2 = Integer.parseInt(all[1 + atual]), quant2 = 0;
+                pks = new ArrayList<>();
+                atk = new ArrayList<>();
+                createJogadores(quant2, quantPoke2, controlador2, all, atk, pks, atual);
+                audio.stop();
+                Media sound = new Media(Paths.get("battle.mp3").toUri().toString());
+                AudioClip mediaPlayer = new AudioClip(sound.getSource());
+                mediaPlayer.setCycleCount(AudioClip.INDEFINITE);
+                mediaPlayer.play();
+                Scenario battleScenario = new BattleScenario(jogadores, mediaPlayer);
+                Spawner.startScenario(battleScenario, null);
+                finish();
+            }
+        }
+    }
+
+    private void createJogadores(int quant, int quantPoke, int controlador, String[] all, List<Ataque> atk, List<Pokemon> pks, int atual) {
+        while (quant < quantPoke) {
+            int idPoke1 = Integer.parseInt(all[((2 + atual) + (6 * quant))]);
+            Especie e = new Especie(idPoke1);
+            int lvl = Integer.parseInt(all[((3 + atual) + (6 * quant))]);
+            int tmp = (4 + atual) + (6 * quant);
+            for (int i = tmp; i < (tmp + 4); i++) {
+                int id = Integer.parseInt(all[i]);
+                if (id != 0) {
+                    addAtaque(id, atk);
+                }
+            }
+            pks.add(new Pokemon(lvl, atk, e));
+            quant++;
+        }
+        if(controlador == 0) {
+            jogadores.add(new Maquina("IA-1", pks));
+        } else {
+            jogadores.add(new Humano("Player-1", pks));
+        }
+    }
+
+    private void addAtaque(int id, List<Ataque> atk) {
+        Base b = new Base();
+        List<String> atq = b.getData(id, false);
+        switch (atq.get(6)) {
+            case "charge":
+                atk.add(new AtaqueCharge(id));
+                break;
+            case "comum":
+                atk.add(new AtaqueComum(id));
+                break;
+            case "fixo":
+                atk.add(new AtaqueFixo(id));
+                break;
+            case "hp":
+                atk.add(new AtaqueHP(id));
+                break;
+            case "modifier":
+                atk.add(new AtaqueModifier(id));
+                break;
+            case "multihit":
+                atk.add(new AtaqueMultiHit(id));
+                break;
+            case "status":
+                atk.add(new AtaqueStatus(id));
+                break;
+        }
+    }
+
+    private void showError() {
+        try {
+            throw new RuntimeException();
+        } catch (Exception e) {
+            lbError.setVisible(true);
+            lbError.setText("Número de Parametros Inválidos");
         }
     }
 }

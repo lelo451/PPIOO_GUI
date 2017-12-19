@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -61,33 +62,40 @@
       </AnchorPane>
       <AnchorPane layoutY="228.0" prefHeight="318.0" prefWidth="492.0" style="-fx-background-color: rgba(63,81,181,0);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label alignment="CENTER" layoutX="97.0" layoutY="33.0" text="BATALHA POKEMON" textFill="#456aff" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Label alignment="CENTER" layoutX="97.0" layoutY="15.0" text="BATALHA POKEMON" textFill="#456aff" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font size="32.0" />
                </font>
             </Label>
-            <Label fx:id="startTime" alignment="CENTER" layoutX="120.0" layoutY="93.0" text="Escolha quem vai controlar o time 0" textFill="#456aff" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Label fx:id="startTime" alignment="CENTER" layoutX="120.0" layoutY="60.0" text="Escolha quem vai controlar o time 0" textFill="#456aff" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="human" layoutX="95.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="300.0" text="HUMANO">
+            <Button fx:id="human" layoutX="95.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="300.0" text="HUMANO">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="IA" layoutX="95.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="300.0" text="COMPUTADOR">
+            <Button fx:id="IA" layoutX="95.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="300.0" text="COMPUTADOR">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <JFXComboBox fx:id="cbRandom1" layoutX="95.0" layoutY="220.0" prefWidth="140.0" />
-            <JFXComboBox fx:id="cbRandom2" layoutX="255.0" layoutY="220.0" prefWidth="140.0" />
-            <Button fx:id="btRandom" layoutX="95.0" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="300.0" text="RANDOM">
+            <JFXComboBox fx:id="cbRandom1" layoutX="95.0" layoutY="175.0" prefWidth="140.0" />
+            <JFXComboBox fx:id="cbRandom2" layoutX="255.0" layoutY="175.0" prefWidth="140.0" />
+            <Button fx:id="btRandom" layoutX="95.0" layoutY="215.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="300.0" text="RANDOM">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
+            <JFXTextField fx:id="tfParameter" labelFloat="true" layoutX="12.0" layoutY="255.0" prefHeight="26.0" prefWidth="383.0" promptText="Parameter" />
+            <Button fx:id="btParameter" layoutX="401.0" layoutY="255.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="77.0" text="OK">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Label fx:id="lbError" alignment="CENTER" layoutX="-1.0" layoutY="296.0" prefHeight="16.0" prefWidth="492.0" styleClass="error-label" text="Número de parametros inválidos" textFill="RED" />
          </children>
       </AnchorPane>
    </children>
